@@ -1,0 +1,32 @@
+{
+  "name": "nodejs-lts-versions",
+  "version": "1.0.0",
+  "description": "Get the LTS versions of Node.js",
+  "main": "index.js",
+  "dependencies": {
+    "node-version-data": "^1.1.0",
+    "semver": "^7.3.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "npx mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/msimerson/node-lts-versions.git"
+  },
+  "keywords": [
+    "Node",
+    "LTS",
+    "Long Term Stable",
+    "version",
+    "list",
+    "tooling",
+  ],
+  "author": "Matt Simerson <matt@tnpi.net>",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/msimerson/node-lts-versions/issues"
+  },
+  "homepage": "https://github.com/msimerson/node-lts-versions"
+}
