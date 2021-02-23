@@ -41,3 +41,6 @@ Ver Codename    Latest Release          LTS Period
 [ '10', '12', '14' ]
 ```
 
+## Future
+
+Got ideas? Your contributions are welcome. Submit a PR with tests and it will likely be accepted.

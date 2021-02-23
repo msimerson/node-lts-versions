@@ -4,6 +4,7 @@ const assert = require('assert')
 const ltsv = require('../index')
 
 describe('index', function () {
+  this.timeout(3000)
   it('create create a getNodeLTS', function (done) {
     assert.equal(ltsv.constructor.name, 'getNodeLTS')
     done()
