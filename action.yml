@@ -3,7 +3,7 @@ author: Matt Simerson
 description: Get list of maintained LTS Node.js versions (active + maintenance)
 runs:
   using: 'node12'
-  main: 'main.js'
+  main: 'dist/index.js'
 outputs:
   lts:
     description: maintained LTS versions of node.js
