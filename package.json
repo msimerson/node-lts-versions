@@ -4,6 +4,7 @@
   "description": "Get the maintained LTS versions of Node.js",
   "main": "index.js",
   "dependencies": {
+    "@actions/core": "^1.2.6",
     "node-version-data": "^1.1.0",
     "semver": "^7.3.4"
   },
@@ -14,7 +15,8 @@
   "scripts": {
     "test": "npx mocha",
     "lint": "npx eslint *.js test/*.js",
-    "lintfix": "npx eslint --fix *.js test/*.js"
+    "lintfix": "npx eslint --fix *.js test/*.js",
+    "build": "ncc build main.js --license licenses.txt"
   },
   "repository": {
     "type": "git",
