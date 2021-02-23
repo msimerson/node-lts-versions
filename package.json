@@ -1,5 +1,5 @@
 {
-  "name": "nodejs-lts-versions",
+  "name": "node-lts-versions",
   "version": "1.0.1",
   "description": "Get the maintained LTS versions of Node.js",
   "main": "index.js",
