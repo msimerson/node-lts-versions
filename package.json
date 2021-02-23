@@ -1,27 +1,34 @@
 {
   "name": "nodejs-lts-versions",
   "version": "1.0.0",
-  "description": "Get the LTS versions of Node.js",
+  "description": "Get the maintained LTS versions of Node.js",
   "main": "index.js",
   "dependencies": {
     "node-version-data": "^1.1.0",
     "semver": "^7.3.4"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "*",
+    "mocha": "*"
+  },
   "scripts": {
-    "test": "npx mocha"
+    "test": "npx mocha",
+    "lint": "npx eslint *.js test/*.js",
+    "lintfix": "npx eslint --fix *.js test/*.js"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/msimerson/node-lts-versions.git"
   },
   "keywords": [
+    "GitHub",
+    "Actions",
+    "JavaScript",
     "Node",
     "LTS",
     "Long Term Stable",
-    "version",
     "list",
-    "tooling",
+    "tooling"
   ],
   "author": "Matt Simerson <matt@tnpi.net>",
   "license": "BSD-3-Clause",
