@@ -8,11 +8,17 @@ The output of the yaml function is designed to populate a GitHub Actions matrix 
 
 ```js
 const ltsv = require('node-lts-versions')
-ltsv.print()  // see below
-ltsv.yaml()
+ltsv.fetch().then(() => {
+    ltsv.print()  // see below
+    ltsv.yaml()
+})
 ```
 
 ## Methods
+
+### fetch
+
+Retrieves Node.js version information using `node-version-data`.
 
 ### print
 
@@ -35,3 +41,6 @@ Ver Codename    Latest Release          LTS Period
 [ '10', '12', '14' ]
 ```
 
+## Future
+
+Got ideas? Your contributions are welcome. Submit a PR with tests and it will likely be accepted.

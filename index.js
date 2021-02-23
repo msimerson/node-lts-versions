@@ -1,8 +1,5 @@
 #!/usr/bin/env node
 
-const fs = require('fs')
-const path = require('path')
-
 const nodeVersionData = require('node-version-data') // used by nodejs.org
 const semver = require('semver')
 
@@ -19,41 +16,48 @@ class getNodeLTS {
 
     this.majorsLatest = {}
     this.majorsInitial = {}
-
-    this.doIt()
   }
 
-  doIt () {
+  fetch () {
+    return new Promise((resolve, reject) => {
 
-    nodeVersionData((err, versions) => {
-      if (err) {
-        console.error('Download error')
-        console.error(err.stack)
-        process.exit(1)
+      // cache
+      if (Object.keys(this.majorsLatest).length > 0) {
+        return resolve()
       }
 
-      for (const v of versions) {
-        const major = semver.major(v.version)  // ex: v12, v10, ...
-
-        if (v.lts === false) continue      // ignore all but LTS
-
-        // find the earliest LTS release for each major
-        if (!this.majorsInitial[major]) this.majorsInitial[major] = v
-        if (semver.lt(v.version, this.majorsInitial[major].version)) {
-          this.majorsInitial[major] = v
+      nodeVersionData((err, versions) => {
+        if (err) {
+          console.error('Download error')
+          console.error(err.stack)
+          return reject(err)
         }
 
-        // find the largest LTS for each major
-        if (!this.majorsLatest[major]) this.majorsLatest[major] = v
-        if (semver.gt(v.version, this.majorsLatest[major].version)) {
-          this.majorsLatest[major] = v
-        }
-      }
+        for (const v of versions) {
+          const major = semver.major(v.version)  // ex: v12, v10, ...
 
-      for (const [maj, obj] of Object.entries(this.majorsInitial)) {
-        this.majorsLatest[maj].dateStartLTS = obj.date
-        this.majorsLatest[maj].dateEndLTS = this.getExpire(obj.date)
-      }
+          if (v.lts === false) continue      // ignore all but LTS
+
+          // find the earliest LTS release for each major
+          if (!this.majorsInitial[major]) this.majorsInitial[major] = v
+          if (semver.lt(v.version, this.majorsInitial[major].version)) {
+            this.majorsInitial[major] = v
+          }
+
+          // find the largest LTS for each major
+          if (!this.majorsLatest[major]) this.majorsLatest[major] = v
+          if (semver.gt(v.version, this.majorsLatest[major].version)) {
+            this.majorsLatest[major] = v
+          }
+        }
+
+        for (const [maj, obj] of Object.entries(this.majorsInitial)) {
+          this.majorsLatest[maj].dateStartLTS = obj.date
+          this.majorsLatest[maj].dateEndLTS = this.getExpire(obj.date)
+        }
+
+        resolve()
+      })
     })
   }
 
