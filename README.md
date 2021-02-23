@@ -11,6 +11,7 @@ const ltsv = require('node-lts-versions')
 ltsv.fetch().then(() => {
     ltsv.print()  // see below
     ltsv.yaml()
+    ltsv.json()
 })
 ```
 
