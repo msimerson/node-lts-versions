@@ -22,9 +22,7 @@ class getNodeLTS {
     return new Promise((resolve, reject) => {
 
       // cache
-      if (Object.keys(this.majorsLatest).length > 0) {
-        return resolve()
-      }
+      if (Object.keys(this.majorsLatest).length > 0) return resolve()
 
       nodeVersionData((err, versions) => {
         if (err) {
@@ -36,7 +34,8 @@ class getNodeLTS {
         for (const v of versions) {
           const major = semver.major(v.version)  // ex: v12, v10, ...
 
-          if (v.lts === false) continue      // ignore all but LTS
+          // if (v.lts === false) continue      // ignore all but LTS
+          if (major % 2 !== 0) continue         // ignore odd releases
 
           // find the earliest LTS release for each major
           if (!this.majorsInitial[major]) this.majorsInitial[major] = v
@@ -65,20 +64,23 @@ class getNodeLTS {
     return Object.fromEntries(Object.entries(obj).filter(predicate))
   }
 
-  getActive () {
-    return Object.keys(this.filter(this.majorsLatest, ([maj, obj]) => {
-      return new Date(obj.dateEndLTS).getTime() > new Date().getTime()
-    }))
+  getActive (opts) {
+    const now = new Date().getTime()
+    function filterActive ([maj, obj]) {
+      return new Date(obj.dateEndLTS).getTime() > now
+    }
+    function filterActiveLTS ([maj, obj]) {
+      return obj.lts !== false && new Date(obj.dateEndLTS).getTime() > now
+    }
+    return Object.keys(this.filter(this.majorsLatest, opts?.lts ? filterActiveLTS : filterActive))
   }
 
-  json () {
-    console.log(JSON.stringify(
-      this.getActive()
-    ))
+  json (opts = {}) {
+    return JSON.stringify(this.getActive(opts))
   }
 
-  yaml () {
-    console.log(this.getActive())
+  yaml (opts = {}) {
+    return this.getActive(opts)
   }
 
   print (desire) {
