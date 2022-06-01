@@ -35,6 +35,7 @@ class getNodeLTS {
           const major = semver.major(v.version)  // ex: v12, v10, ...
 
           if (v.lts === false) continue      // ignore all but LTS
+          // if (major % 2 !== 0) continue
 
           // find the earliest LTS release for each major
           if (!this.majorsInitial[major]) this.majorsInitial[major] = v
@@ -63,20 +64,20 @@ class getNodeLTS {
     return Object.fromEntries(Object.entries(obj).filter(predicate))
   }
 
-  getActive () {
+  getActive (opts) {
+    const now = new Date().getTime()
     return Object.keys(this.filter(this.majorsLatest, ([maj, obj]) => {
-      return new Date(obj.dateEndLTS).getTime() > new Date().getTime()
+      return new Date(obj.dateEndLTS).getTime() > now
     }))
   }
 
-  json () {
-    console.log(JSON.stringify(
-      this.getActive()
-    ))
+  json (opts = {}) {
+    // console.log(JSON.stringify(versions))
+    return JSON.stringify(this.getActive(opts))
   }
 
-  yaml () {
-    console.log(this.getActive())
+  yaml (opts = {}) {
+    return this.getActive(opts)
   }
 
   print (desire) {

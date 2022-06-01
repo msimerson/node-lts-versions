@@ -1,3 +1,5 @@
+[![CI](https://github.com/msimerson/node-lts-versions/actions/workflows/ci.yml/badge.svg)](https://github.com/msimerson/node-lts-versions/actions/workflows/ci.yml)
+
 # Get Node.js LTS versions
 
 Retrieve a list of [Long Term Stable](https://nodejs.org/en/about/releases/) versions of Node.js.

@@ -1,4 +1,4 @@
-const core = require('@actions/core');
-const l=require('./index'); l.fetch().then(() => {
-  core.setOutput('lts', l.json() );
+const l=require('./index')
+l.fetch().then(() => {
+  console.log(`::set-output name=lts::${l.json()}`)
 })
