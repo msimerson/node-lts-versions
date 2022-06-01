@@ -4,11 +4,16 @@
 
 Retrieve a list of [Long Term Stable](https://nodejs.org/en/about/releases/) versions of Node.js.
 
-The output of the yaml function is designed to populate a GitHub Actions matrix declaration.
+The output of the yaml function is designed to populate a GitHub Actions matrix declaration so that your CI is always testing with every **Active LTS** version of Node.js.
 
 ### Usage
 
-This action populates node-version in your build matrix so that your CI is always testing with every **Active LTS** version of Node.js.
+This action has two outputs: `active` and `lts`.
+
+- active, is currently active node.js versions
+- lts, are a subset of Active.
+
+At the time of writing, active=`[14,16,18]` and lts=`[14,16]`. Node.js v18 is due to start LTS in five more months.
 
 
 #### manually
@@ -32,13 +37,15 @@ This action populates node-version in your build matrix so that your CI is alway
       - id: get-tls
         uses: msimerson/node-lts-versions@v1.2.0
     outputs:
-      matrix: ${{ steps.get-tls.outputs.lts }}
+      lts: ${{ steps.get-tls.outputs.lts }}
+      active: ${{ steps.get-tls.outputs.active }}
   test:
     needs: get-lts
     strategy:
       matrix:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
-        node-version: ${{ fromJson(needs.get-lts.outputs.matrix) }}
+        node-version: ${{ fromJson(needs.get-lts.outputs.lts) }}
+        # node-version: ${{ fromJson(needs.get-lts.outputs.active) }}
       fail-fast: false
     steps:
 ```

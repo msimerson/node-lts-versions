@@ -4,8 +4,8 @@
 
 - feat: also output 'active'
 - fix: output was invalid
-- core(dep): drop @actions/core dependency
-
+- dep: drop @actions/core
+- ci: add node 18 testing
 
 ### 1.1.0 - 2021-02-21
 
