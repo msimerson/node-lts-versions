@@ -1,5 +1,10 @@
 # CHANGELOG
 
+### 1.2.1 - 2022-05-31
+
+- fix: action.yml, 'node14' is not supported, use 'node12' or 'node16' instead.
+
+
 ### 1.2.0 - 2022-05-31
 
 - feat: also output 'active'

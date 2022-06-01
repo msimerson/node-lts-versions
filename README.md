@@ -11,8 +11,8 @@ The output of the yaml function is designed to populate a GitHub Actions matrix 
 
 This action has two outputs: `active` and `lts`.
 
-- active, is currently active node.js versions
-- lts, are a subset of Active.
+- `active` is currently active node.js versions
+- `lts` is a subset of active versions.
 
 At the time of writing, active=`[14,16,18]` and lts=`[14,16]`. Node.js v18 is due to start LTS in five more months.
 
