@@ -2,8 +2,9 @@
 
 ### 1.2.0 - 2022-05-31
 
+- feat: also output 'active'
 - fix: output was invalid
-- drop @actions/core dependency
+- core(dep): drop @actions/core dependency
 
 
 ### 1.1.0 - 2021-02-21

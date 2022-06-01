@@ -72,7 +72,7 @@ class getNodeLTS {
     function filterActiveLTS ([maj, obj]) {
       return obj.lts !== false && new Date(obj.dateEndLTS).getTime() > now
     }
-    return Object.keys(this.filter(this.majorsLatest, opts.lts ? filterActiveLTS : filterActive))
+    return Object.keys(this.filter(this.majorsLatest, opts?.lts ? filterActiveLTS : filterActive))
   }
 
   json (opts = {}) {
