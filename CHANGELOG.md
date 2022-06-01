@@ -7,6 +7,7 @@
 - dep: drop @actions/core
 - ci: add node 18 testing
 
+
 ### 1.1.0 - 2021-02-21
 
 - switch default output from YAML to JSON
