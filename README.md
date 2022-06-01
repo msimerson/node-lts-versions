@@ -9,39 +9,38 @@ The output of the yaml function is designed to populate a GitHub Actions matrix 
 ```js
 const ltsv = require('node-lts-versions')
 ltsv.fetch().then(() => {
-    ltsv.print()  // see below
-    ltsv.yaml()
     ltsv.json()
+    ltsv.yaml()
+    ltsv.print()
 })
 ```
 
-## Methods
+### Methods
 
-### fetch
+#### fetch
 
-Retrieves Node.js version information using `node-version-data`.
+Retrieves Node.js version information. Prints active LTS versions in several formats.
 
-### print
-
-````
-Ver Codename    Latest Release          LTS Period
-10  Dubnium     v10.23.2  2021-01-26    2018-10-30 to 2021-04-29
-12  Erbium      v12.20.1  2021-01-04    2019-10-21 to 2022-04-20
-14  Fermium     v14.15.4  2021-01-04    2020-10-27 to 2023-04-26
-````
-
-### json
+#### json
 
 ```json
-["10","12","14"]
+["14","16"]
 ```
 
-### yaml
+#### yaml
 
 ```yaml
-[ '10', '12', '14' ]
+[ '14', '16' ]
 ```
+
+#### print
+
+````
+> Ver Codename  Latest Release      LTS Period
+14  Fermium v14.19.3  2022-05-17    2020-10-27 to 2023-04-26
+16  Gallium v16.15.0  2022-04-26    2021-10-26 to 2024-04-25
+````
 
 ## Future
 
-Got ideas? Your contributions are welcome. Submit a PR with tests and it will likely be accepted.
+Got ideas? Contributions are welcome. Submit a PR with tests and it will likely be accepted.

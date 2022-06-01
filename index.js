@@ -22,9 +22,7 @@ class getNodeLTS {
     return new Promise((resolve, reject) => {
 
       // cache
-      if (Object.keys(this.majorsLatest).length > 0) {
-        return resolve()
-      }
+      if (Object.keys(this.majorsLatest).length > 0) return resolve()
 
       nodeVersionData((err, versions) => {
         if (err) {

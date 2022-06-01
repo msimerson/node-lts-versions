@@ -1,0 +1,54 @@
+name: Publish
+
+on:
+  release:
+    types: [ published ]
+
+env:
+  node-version: 14
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node-version: ${{ env.node-version }}
+    - run: npm install
+    - run: npm test
+
+  publish-npm:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node-version: ${{ env.node-version }}
+        registry-url: https://registry.npmjs.org
+    - run: npm install
+    - run: npm publish --ignore-scripts
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  publish-gpr:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node-version: ${{ env.node-version }}
+        registry-url: https://npm.pkg.github.com
+    - run: npm install
+
+    # setting registry-url isn't currently working. This sets it, but still won't
+    # publish to GPR
+    - run: npm config set registry https://npm.pkg.github.com
+    - run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> ~/.npmrc
+
+    - run: npm publish --ignore-scripts
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
