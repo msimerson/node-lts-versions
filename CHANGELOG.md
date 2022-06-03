@@ -6,6 +6,7 @@
 ### [1.3.0] - 2022-06-02
 
 - feat: also publish `min`
+- dep: @actions/core 1.2.6 -> 1.8.2
 
 
 ### 1.2.2 - 2022-05-31
