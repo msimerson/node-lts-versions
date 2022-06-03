@@ -5,18 +5,8 @@
 
 ### [1.3.2] - 2022-06-03
 
-#### Added
-
-- 
-
-#### Fixed
-
-- 
-
-#### Changed
-
-- 
-
+- ci: add environment to publishing steps
+- doc: add min description to action.yml 
 
 
 ### [1.3.1] - 2022-06-03
