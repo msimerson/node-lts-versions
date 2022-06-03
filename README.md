@@ -99,6 +99,8 @@ Retrieves Node.js version information. Prints active LTS versions in several for
 ## Reference
 
 - GitHub Actions: [New workflow features](https://github.blog/changelog/2020-04-15-github-actions-new-workflow-features/)
+- [Using tags for Release
+  management](https://docs.github.com/en/enterprise-cloud@latest/actions/creating-actions/about-custom-actions#using-release-management-for-actions)
 
 
 ## Future
