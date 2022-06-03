@@ -13,11 +13,12 @@ This action has two outputs: `active` and `lts`.
 
 - `active` is currently active node.js versions
 - `lts` is a subset of active versions.
+- `min` is the lowest LTS version
 
 At the time of writing, active=`[14,16,18]` and lts=`[14,16]`. Node.js v18 is due to start LTS in five more months.
 
 
-#### manually
+#### manually (the normal way)
 
 ```yaml
   test:
@@ -32,25 +33,31 @@ At the time of writing, active=`[14,16,18]` and lts=`[14,16]`. Node.js v18 is du
 #### automatically
 
 ```yaml
-  get-lts:
-    runs-on: ubuntu-latest
-    steps:
-      - id: get-tls
-        uses: msimerson/node-lts-versions@v1.2.0
-    outputs:
-      lts: ${{ steps.get-tls.outputs.lts }}
-      active: ${{ steps.get-tls.outputs.active }}
   test:
     needs: get-lts
     strategy:
       matrix:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
         node-version: ${{ fromJson(needs.get-lts.outputs.lts) }}
-        # node-version: ${{ fromJson(needs.get-lts.outputs.active) }}
       fail-fast: false
     steps:
+  get-lts:
+    runs-on: ubuntu-latest
+    steps:
+      - id: get
+        uses: msimerson/node-lts-versions@v1.2.0
+    outputs:
+      active: ${{ steps.get.outputs.active }}
+      lts: ${{ steps.get.outputs.lts }}
+      min: ${{ steps.get.outputs.min }}
 ```
 
+### Example
+
+```sh
+✗ node main.js
+::set-output name=active::["14","16","18"] name=lts::["14","16"] name=min::"14"
+```
 
 #### RAW
 
