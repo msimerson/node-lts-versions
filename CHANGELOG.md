@@ -3,6 +3,22 @@
 ### Unreleased
 
 
+### [1.3.2] - 2022-06-03
+
+#### Added
+
+- 
+
+#### Fixed
+
+- 
+
+#### Changed
+
+- 
+
+
+
 ### [1.3.1] - 2022-06-03
 
 - ci: fix publishing to GPM
@@ -40,3 +56,4 @@
 
 [1.3.0]: https://github.com/msimerson/node-lts-versions/releases/tag/1.3.0
 [1.3.1]: https://github.com/msimerson/node-lts-versions/releases/tag/1.3.1
+[1.3.2]: https://github.com/msimerson/node-lts-versions/releases/tag/1.3.2
