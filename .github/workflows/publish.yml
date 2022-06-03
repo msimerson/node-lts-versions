@@ -36,19 +36,16 @@ jobs:
   publish-gpr:
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
       with:
         node-version: ${{ env.node-version }}
         registry-url: https://npm.pkg.github.com
-    - run: npm install
-
-    # setting registry-url isn't currently working. This sets it, but still won't
-    # publish to GPR
-    - run: npm config set registry https://npm.pkg.github.com
-    - run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> ~/.npmrc
-
-    - run: npm publish --ignore-scripts
+        scope: "@msimerson"
+    - run: npm publish
       env:
         NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
