@@ -145,8 +145,9 @@ module.exports = new getNodeLTS()
 // const core = require('@actions/core');
 const l=__nccwpck_require__(590)
 l.fetch().then(() => {
-  // core.setOutput('lts', l.json());
-  console.log(`::set-output name=active::${l.json()} name=lts::${l.json({lts: true})}`)
+  const active = l.json()
+  const min = JSON.stringify(JSON.parse(active)[0])
+  console.log(`::set-output name=active::${active} name=lts::${l.json({lts: true})} name=min::${min}`)
 })
 
 
