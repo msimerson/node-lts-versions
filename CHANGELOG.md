@@ -1,5 +1,19 @@
 # CHANGELOG
 
+### Unreleased
+
+
+### [1.3.0] - 2022-06-02
+
+- feat: also publish `min`
+- dep: @actions/core 1.2.6 -> 1.8.2
+
+
+### 1.2.2 - 2022-05-31
+
+- fix: restore @actions/core, for build (#5)
+
+
 ### 1.2.1 - 2022-05-31
 
 - fix: action.yml, 'node14' is not supported, use 'node12' or 'node16' instead.
@@ -17,3 +31,6 @@
 
 - switch default output from YAML to JSON
 - setOutput
+
+
+[1.3.0]: https://github.com/msimerson/node-lts-versions/releases/tag/1.3.0
