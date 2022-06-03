@@ -22,6 +22,7 @@ jobs:
   publish-npm:
     needs: build
     runs-on: ubuntu-latest
+    environment: npm
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
@@ -34,8 +35,10 @@ jobs:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   publish-gpr:
+    if: ${{ false }}
     needs: build
     runs-on: ubuntu-latest
+    environment: ghpm
     permissions:
       contents: read
       packages: write

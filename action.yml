@@ -6,6 +6,8 @@ runs:
   main: 'dist/index.js'
 outputs:
   lts:
-    description: maintained LTS versions of node.js
+    description: maintained LTS versions
   active:
-    description: Active LTS versions of node.js
+    description: active LTS versions
+  min:
+    description: the lowest LTS version
