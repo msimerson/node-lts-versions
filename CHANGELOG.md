@@ -3,6 +3,11 @@
 ### Unreleased
 
 
+### [1.3.3] - 2022-06-05
+
+- doc(README): use v1 tag instead of v1.2.0
+
+
 ### [1.3.2] - 2022-06-03
 
 - ci: add environment to publishing steps
@@ -47,3 +52,4 @@
 [1.3.0]: https://github.com/msimerson/node-lts-versions/releases/tag/1.3.0
 [1.3.1]: https://github.com/msimerson/node-lts-versions/releases/tag/1.3.1
 [1.3.2]: https://github.com/msimerson/node-lts-versions/releases/tag/1.3.2
+[1.3.3]: https://github.com/msimerson/node-lts-versions/releases/tag/1.3.3
