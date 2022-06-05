@@ -45,7 +45,7 @@ At the time of writing, active=`[14,16,18]` and lts=`[14,16]`. Node.js v18 is du
     runs-on: ubuntu-latest
     steps:
       - id: get
-        uses: msimerson/node-lts-versions@v1.2.0
+        uses: msimerson/node-lts-versions@v1
     outputs:
       active: ${{ steps.get.outputs.active }}
       lts: ${{ steps.get.outputs.lts }}
