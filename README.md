@@ -56,7 +56,9 @@ At the time of writing, active=`[14,16,18]` and lts=`[14,16]`. Node.js v18 is du
 
 ```sh
 ✗ node main.js
-::set-output name=active::["14","16","18"] name=lts::["14","16"] name=min::"14"
+::set-output name=active::["14","16","18"]
+::set-output name=lts::["14","16"]
+::set-output name=min::"14"
 ```
 
 #### RAW
