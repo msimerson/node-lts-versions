@@ -142,12 +142,26 @@ module.exports = new getNodeLTS()
 /***/ 549:
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __nccwpck_require__) => {
 
-// const core = require('@actions/core');
+const useCore = false
+
 const l=__nccwpck_require__(590)
 l.fetch().then(() => {
+  const lts    = l.json({lts: true})
   const active = l.json()
-  const min = JSON.stringify(JSON.parse(active)[0])
-  console.log(`::set-output name=active::${active} name=lts::${l.json({lts: true})} name=min::${min}`)
+  const min    = JSON.stringify(JSON.parse(active)[0])
+
+  if (useCore) {
+    // const core = require('@actions/core');
+    // core.setOutput('active', active)
+    // core.setOutput('lts'   , lts)
+    // core.setOutput('min'   , min)
+  }
+  else {
+    // console.log(`::set-output name=active::${active} name=lts::${lts} name=min::${min}`)
+    console.log(`::set-output name=active::${active}`)
+    console.log(`::set-output name=lts::${lts}`)
+    console.log(`::set-output name=min::${min}`)
+  }
 })
 
 

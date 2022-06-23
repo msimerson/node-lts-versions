@@ -1,4 +1,3 @@
-const core = require('@actions/core');
 const useCore = false
 
 const l=require('./index')
@@ -8,9 +7,10 @@ l.fetch().then(() => {
   const min    = JSON.stringify(JSON.parse(active)[0])
 
   if (useCore) {
-    core.setOutput('active', active)
-    core.setOutput('lts'   , lts)
-    core.setOutput('min'   , min)
+    // const core = require('@actions/core');
+    // core.setOutput('active', active)
+    // core.setOutput('lts'   , lts)
+    // core.setOutput('min'   , min)
   }
   else {
     // console.log(`::set-output name=active::${active} name=lts::${lts} name=min::${min}`)
