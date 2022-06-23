@@ -3,6 +3,12 @@
 ### Unreleased
 
 
+### [1.4.0] - 2022-06-23
+
+- fix: only the first named output was being set.
+- chore(dep): bumped @actions/core to v1.9.0
+
+
 ### [1.3.3] - 2022-06-05
 
 - doc(README): use v1 tag instead of v1.2.0
@@ -53,3 +59,4 @@
 [1.3.1]: https://github.com/msimerson/node-lts-versions/releases/tag/1.3.1
 [1.3.2]: https://github.com/msimerson/node-lts-versions/releases/tag/1.3.2
 [1.3.3]: https://github.com/msimerson/node-lts-versions/releases/tag/1.3.3
+[1.4.0]: https://github.com/msimerson/node-lts-versions/releases/tag/1.4.0
