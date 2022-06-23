@@ -5,13 +5,8 @@
 
 ### [1.4.0] - 2022-06-23
 
-#### Fixed
-
 - fix: only the first named output was being set.
-
-#### Changed
-
-- dep: bumped @actions/core to v1.9.0
+- chore(dep): bumped @actions/core to v1.9.0
 
 
 ### [1.3.3] - 2022-06-05
