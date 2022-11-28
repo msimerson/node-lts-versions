@@ -13,9 +13,9 @@ l.fetch().then(() => {
     // core.setOutput('min'   , min)
   }
   else {
-    // console.log(`::set-output name=active::${active} name=lts::${lts} name=min::${min}`)
-    console.log(`::set-output name=active::${active}`)
-    console.log(`::set-output name=lts::${lts}`)
-    console.log(`::set-output name=min::${min}`)
+    // console.log(`::setOutput name=active::${active} name=lts::${lts} name=min::${min}`)
+    console.log(`::setOutput name=active::${active}`)
+    console.log(`::setOutput name=lts::${lts}`)
+    console.log(`::setOutput name=min::${min}`)
   }
 })

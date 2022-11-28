@@ -3,6 +3,14 @@
 ### Unreleased
 
 
+### [1.4.3] - 2022-10-27
+
+#### Changed
+
+- ci: update @actions/core syntax, fixes #
+
+
+
 ### [1.4.2] - 2022-06-23
 
 - fix: only the first named output was being set.
@@ -60,3 +68,4 @@
 [1.3.2]: https://github.com/msimerson/node-lts-versions/releases/tag/1.3.2
 [1.3.3]: https://github.com/msimerson/node-lts-versions/releases/tag/1.3.3
 [1.4.2]: https://github.com/msimerson/node-lts-versions/releases/tag/1.4.2
+[1.4.3]: https://github.com/msimerson/node-lts-versions/releases/tag/1.4.3

@@ -25,7 +25,7 @@ At the time of writing, active=`[14,16,18]` and lts=`[14,16]`. Node.js v18 is du
     strategy:
       matrix:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
-        node-version: [ 12, 14, 16 ]
+        node-version: [ 14, 16, 18 ]
       fail-fast: false
     steps:
 ```
@@ -56,9 +56,9 @@ At the time of writing, active=`[14,16,18]` and lts=`[14,16]`. Node.js v18 is du
 
 ```sh
 ✗ node main.js
-::set-output name=active::["14","16","18"]
-::set-output name=lts::["14","16"]
-::set-output name=min::"14"
+::setOutput name=active::["14","16","18"]
+::setOutput name=lts::["16","18"]
+::setOutput name=min::"16"
 ```
 
 #### RAW
@@ -81,21 +81,22 @@ Retrieves Node.js version information. Prints active LTS versions in several for
 #### json
 
 ```json
-["14","16"]
+["14","16","18"]
 ```
 
 #### yaml
 
 ```yaml
-[ '14', '16' ]
+[ '14', '16', '18' ]
 ```
 
 #### print
 
 ````
 > Ver Codename  Latest Release      LTS Period
-14  Fermium v14.19.3  2022-05-17    2020-10-27 to 2023-04-26
-16  Gallium v16.15.0  2022-04-26    2021-10-26 to 2024-04-25
+14  Fermium   v14.19.3  2022-05-17  2020-10-27 to 2023-04-26
+16  Gallium   v16.15.0  2022-04-26  2021-10-26 to 2024-04-25
+18  Hydrogen  v18.12.0  2022-10-25  2022-04-18 to 2024-10-17
 ````
 
 ## Reference
