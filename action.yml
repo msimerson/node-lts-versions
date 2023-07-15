@@ -2,7 +2,7 @@ name: Node LTS versions
 author: Matt Simerson
 description: Get list of LTS node.js versions
 runs:
-  using: 'node16'
+  using: 'node18'
   main: 'dist/index.js'
 outputs:
   lts:
