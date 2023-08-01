@@ -3,15 +3,22 @@
 ### Unreleased
 
 
-### [1.4.3] - 2022-10-27
+### 1.5.1 - 2023-07-31
 
-#### Changed
+- actions.yml: revert to node16 (18 doesn't exist yet)
+
+
+### 1.5.0 - 2023-07-14
+
+deps: bump versions, update dist
+
+
+### 1.4.3 - 2022-10-27
 
 - ci: update @actions/core syntax, fixes #
 
 
-
-### [1.4.2] - 2022-06-23
+### 1.4.2 - 2022-06-23
 
 - fix: only the first named output was being set.
 - chore(dep): bumped @actions/core to v1.9.0
@@ -67,5 +74,3 @@
 [1.3.1]: https://github.com/msimerson/node-lts-versions/releases/tag/1.3.1
 [1.3.2]: https://github.com/msimerson/node-lts-versions/releases/tag/1.3.2
 [1.3.3]: https://github.com/msimerson/node-lts-versions/releases/tag/1.3.3
-[1.4.2]: https://github.com/msimerson/node-lts-versions/releases/tag/1.4.2
-[1.4.3]: https://github.com/msimerson/node-lts-versions/releases/tag/1.4.3
