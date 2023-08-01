@@ -79,4 +79,5 @@ deps: bump versions, update dist
 [1.3.3]: https://github.com/msimerson/node-lts-versions/releases/tag/1.3.3
 [1.4.2]: https://github.com/msimerson/node-lts-versions/releases/tag/1.4.2
 [1.4.3]: https://github.com/msimerson/node-lts-versions/releases/tag/1.4.3
+[1.5.0]: https://github.com/msimerson/node-lts-versions/releases/tag/1.5.0
 [1.5.1]: https://github.com/msimerson/node-lts-versions/releases/tag/1.5.1
