@@ -3,6 +3,16 @@
 ### Unreleased
 
 
+### [1.5.1] - 2023-07-31
+
+- actions.yml: revert to node16 (18 doesn't exist yet)
+
+
+### [1.5.0] - 2023-07-14
+
+deps: bump versions, update dist
+
+
 ### [1.4.3] - 2022-10-27
 
 #### Changed
@@ -69,3 +79,4 @@
 [1.3.3]: https://github.com/msimerson/node-lts-versions/releases/tag/1.3.3
 [1.4.2]: https://github.com/msimerson/node-lts-versions/releases/tag/1.4.2
 [1.4.3]: https://github.com/msimerson/node-lts-versions/releases/tag/1.4.3
+[1.5.2]: https://github.com/msimerson/node-lts-versions/releases/tag/1.5.2
