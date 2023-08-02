@@ -1,4 +1,4 @@
-const useCore = false
+const useCore = true
 
 const l=require('./index')
 
