@@ -9,7 +9,7 @@ The output of the yaml function is designed to populate a GitHub Actions matrix 
 
 ### Usage
 
-This action has two outputs: `active` and `lts`.
+This action has three outputs:
 
 - `active` is currently active node.js versions
 - `lts` is a subset of active versions.
