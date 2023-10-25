@@ -7,6 +7,7 @@
 
 - dep: remove node-version-data
 - style: rename fetch -> fetchLTS (fetch is now a global)
+- ci: bump node.js versions
 
 
 ### 1.5.2 - 2023-08-02
