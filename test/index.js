@@ -11,7 +11,7 @@ describe('index', function () {
   })
 
   it('fetch populates majorsLatest', function (done) {
-    ltsv.fetch().then(() => {
+    ltsv.fetchLTS().then(() => {
       assert.ok(Object.keys(ltsv.majorsLatest).length)
       done()
     })
@@ -19,14 +19,14 @@ describe('index', function () {
   })
 
   it('prints a report of maintained LTS versions', function (done) {
-    ltsv.fetch().then(() => {
+    ltsv.fetchLTS().then(() => {
       ltsv.print()
       done()
     })
   })
 
   it('prints a list of maintained LTS versions', function (done) {
-    ltsv.fetch().then(() => {
+    ltsv.fetchLTS().then(() => {
       console.log(ltsv.yaml())
       done()
     })
