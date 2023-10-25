@@ -2,7 +2,7 @@ const useCore = true
 
 const l=require('./index')
 
-l.fetch().then(() => {
+l.fetchLTS().then(() => {
   const lts    = l.json({lts: true})
   const active = l.json()
   const min    = JSON.stringify(JSON.parse(active)[0])

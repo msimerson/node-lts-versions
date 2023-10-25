@@ -1,5 +1,14 @@
 # CHANGELOG
 
+### Unreleased
+
+
+### [1.6.0] - 2023-10-24
+
+- dep: remove node-version-data
+- style: rename fetch -> fetchLTS (fetch is now a global)
+
+
 ### 1.5.2 - 2023-08-02
 
 - use @actions/core (was stdout)
@@ -70,4 +79,7 @@ deps: bump versions, update dist
 
 - switch default output from YAML to JSON
 - setOutput
+
+
 [1.5.2]: https://github.com/msimerson/node-lts-versions/releases/tag/1.5.2
+[1.6.0]: https://github.com/msimerson/node-lts-versions/releases/tag/1.6.0
