@@ -3,6 +3,11 @@
 ### Unreleased
 
 
+### [1.6.1] - 2023-10-24
+
+- ci: node.js ver 16 -> 20
+
+
 ### [1.6.0] - 2023-10-24
 
 - dep: remove node-version-data
@@ -84,3 +89,4 @@ deps: bump versions, update dist
 
 [1.5.2]: https://github.com/msimerson/node-lts-versions/releases/tag/1.5.2
 [1.6.0]: https://github.com/msimerson/node-lts-versions/releases/tag/1.6.0
+[1.6.1]: https://github.com/msimerson/node-lts-versions/releases/tag/1.6.1
