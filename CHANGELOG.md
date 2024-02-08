@@ -5,10 +5,11 @@
 
 ### [1.6.2] - 2024-02-07
 
-- dep: actions/checkout@v3 -> v4
-- dep: actions/setup-node@v3 -> v4
-- dep: use new node-version `*` & `-1` syntax
-- dep: codecov/codecov-action@v2 -> v4
+- dep(actions/checkout): v3 -> v4
+- dep(actions/setup-node): v3 -> v4
+- dep(actions/codecov-action): v2 -> v4
+- dep(semver): bump 7.5.4 -> 7.6.0
+- chore: use new node-version `*` & `-1` syntax
 
 
 ### [1.6.1] - 2023-10-24
