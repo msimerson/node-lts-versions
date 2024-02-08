@@ -25,7 +25,7 @@ At the time of writing, active=`[14,16,18]` and lts=`[14,16]`. Node.js v18 is du
     strategy:
       matrix:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
-        node-version: [ 14, 16, 18 ]
+        node-version: [ 18, 20 ]
       fail-fast: false
     steps:
 ```
@@ -56,16 +56,16 @@ At the time of writing, active=`[14,16,18]` and lts=`[14,16]`. Node.js v18 is du
 
 ```sh
 ✗ node main.js
-::setOutput name=active::["14","16","18"]
-::setOutput name=lts::["16","18"]
-::setOutput name=min::"16"
+::setOutput name=active::["18", "20"]
+::setOutput name=lts::["18", "20"]
+::setOutput name=min::"18"
 ```
 
 #### RAW
 
 ```js
 const ltsv = require('node-lts-versions')
-ltsv.fetch().then(() => {
+ltsv.fetchLTS().then(() => {
     console.log(ltsv.json())
     console.log(ltsv.yaml())
     ltsv.print()
@@ -81,23 +81,22 @@ Retrieves Node.js version information. Prints active LTS versions in several for
 #### json
 
 ```json
-["14","16","18"]
+["18", "20"]
 ```
 
 #### yaml
 
 ```yaml
-[ '14', '16', '18' ]
+[ '18', '20' ]
 ```
 
 #### print
 
-````
-> Ver Codename  Latest Release      LTS Period
-14  Fermium   v14.19.3  2022-05-17  2020-10-27 to 2023-04-26
-16  Gallium   v16.15.0  2022-04-26  2021-10-26 to 2024-04-25
-18  Hydrogen  v18.12.0  2022-10-25  2022-04-18 to 2024-10-17
-````
+```
+Ver Codename  Latest Release    LTS Period
+18  Hydrogen  v18.19.0  2023-11-29  2022-04-18 to 2024-10-17
+20  Iron  v20.11.0  2024-01-09  2023-04-17 to 2025-10-16
+```
 
 ## Reference
 
