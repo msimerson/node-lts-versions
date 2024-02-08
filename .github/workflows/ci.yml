@@ -1,20 +1,17 @@
 name: CI
 
-on: [ push ]
+on: [ push, pull_request ]
 
 env:
   CI: true
-  node-version: 20
 
 jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-      name: Node.js ${{ env.node-version }}
-      with:
-        node-version: ${{ env.node-version }}
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      name: Node.js
     - run: npm install
     - run: npm run lint
       env:
@@ -26,11 +23,11 @@ jobs:
     strategy:
       matrix:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
-        node-version: [ 18, 20 ]
+        node-version: [ 'lts/*', 'lts/-1' ]
       fail-fast: false
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       name: Node ${{ matrix.node-version }} on ${{ matrix.os }}
       with:
         node-version: ${{ matrix.node-version }}
@@ -42,10 +39,8 @@ jobs:
     if: ${{ false }}
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-      with:
-        node-version: ${{ env.node-version }}
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
     - run: npm install
     - name: run coverage
       run: npx -y c8 --reporter=lcovonly npm test
@@ -53,7 +48,7 @@ jobs:
         NODE_ENV: cov
 
     - name: codecov.io
-      uses: codecov/codecov-action@v2
+      uses: codecov/codecov-action@v4
 
     - name: coveralls.io
       uses: coverallsapp/github-action@master

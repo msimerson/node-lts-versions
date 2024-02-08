@@ -4,18 +4,13 @@ on:
   release:
     types: [ published ]
 
-env:
-  node-version: 20
-
 jobs:
 
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-      with:
-        node-version: ${{ env.node-version }}
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
     - run: npm install
     - run: npm test
 
@@ -24,10 +19,9 @@ jobs:
     runs-on: ubuntu-latest
     environment: npm
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
-        node-version: ${{ env.node-version }}
         registry-url: https://registry.npmjs.org
     - run: npm install
     - run: npm publish --ignore-scripts
@@ -43,10 +37,9 @@ jobs:
       contents: read
       packages: write
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
-        node-version: ${{ env.node-version }}
         registry-url: https://npm.pkg.github.com
         scope: "@msimerson"
     - run: npm publish
