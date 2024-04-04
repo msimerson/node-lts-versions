@@ -15,7 +15,7 @@ This action has three outputs:
 - `lts` is a subset of active versions.
 - `min` is the lowest LTS version
 
-At the time of writing, active=`[14,16,18]` and lts=`[14,16]`. Node.js v18 is due to start LTS in five more months.
+At the time of writing, active=`[18,20]` and lts=`[18,20]`.
 
 
 #### manually (the normal way)
@@ -74,7 +74,7 @@ ltsv.fetchLTS().then(() => {
 
 ### Methods
 
-#### fetch
+#### fetchLTS
 
 Retrieves Node.js version information. Prints active LTS versions in several formats.
 
