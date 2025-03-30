@@ -3,19 +3,21 @@
 
 # Node.js LTS versions
 
-Retrieve a list of [Long Term Stable](https://nodejs.org/en/about/releases/) versions of Node.js.
+Retrieve a list of [Release](https://nodejs.org/en/about/previous-releases) versions of Node.js and export the versions for consumption by automated processes.
 
-The output of the yaml function is designed to populate a GitHub Actions matrix declaration so that your CI is always testing with every **Active LTS** version of Node.js.
+The output of the yaml function is designed to populate a GitHub Actions matrix declaration so that your CI is testing with the supported **LTS** version(s) of Node.js.
 
 ### Usage
 
-This action has three outputs:
+This action has the following outputs:
 
-- `active` is currently active node.js versions
-- `lts` is a subset of active versions.
+- `active` are Active LTS versions
+- `maintenance` are Maintenance LTS versions
+- `lts` is all LTS versions (active + maintenance)
+- `current` is the Current node version
 - `min` is the lowest LTS version
 
-At the time of writing, active=`[18,20]` and lts=`[18,20]`.
+At the time of writing, active=`[22]` and lts=`[18,20,22]`.
 
 
 #### manually (the normal way)
@@ -56,9 +58,11 @@ At the time of writing, active=`[18,20]` and lts=`[18,20]`.
 
 ```sh
 ✗ node main.js
-::setOutput name=active::["18", "20"]
-::setOutput name=lts::["18", "20"]
-::setOutput name=min::"18"
+::set-output name=active::["22"]
+::set-output name=maintenance::["18","20"]
+::set-output name=lts::["18","20","22"]
+::set-output name=current::["23"]
+::set-output name=min::"18"
 ```
 
 #### RAW
@@ -76,26 +80,46 @@ ltsv.fetchLTS().then(() => {
 
 #### fetchLTS
 
-Retrieves Node.js version information. Prints active LTS versions in several formats.
+Retrieves Node.js version information.
 
 #### json
 
-```json
-["18", "20"]
+Display Node.js version information in JSON format.
+
+```js
+> ltsv.json('active')
+'["22"]'
+> ltsv.json('lts')
+'["18","20","22"]'
+> ltsv.json()
+'["23"]'
 ```
 
 #### yaml
 
-```yaml
+Display Node.js version information in YAML format.
+
+```js
+> ltsv.yaml('lts')
+[ '18', '20', '22' ]
+> ltsv.yaml('active')
+[ '22' ]
+> ltsv.yaml('maintenance')
 [ '18', '20' ]
+> ltsv.yaml('current')
+[ '23' ]
 ```
 
 #### print
 
+Display Node.js version information in tabular format.
+
+
 ```
-Ver Codename  Latest Release    LTS Period
-18  Hydrogen  v18.19.0  2023-11-29  2022-04-18 to 2024-10-17
-20  Iron  v20.11.0  2024-01-09  2023-04-17 to 2025-10-16
+Ver Codename    Latest Release          LTS Period
+18    Hydrogen  v18.20.8 on 2025-03-27  2022-10-17 to 2025-04-17
+20    Iron      v20.19.0 on 2025-03-13  2023-10-16 to 2026-04-16
+22    Jod       v22.14.0 on 2025-02-11  2024-10-23 to 2027-04-23
 ```
 
 ## Reference

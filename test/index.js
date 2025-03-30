@@ -5,6 +5,7 @@ const ltsv = require('../index')
 
 describe('index', function () {
   this.timeout(3000)
+
   it('creates a getNodeLTS', function (done) {
     assert.equal(ltsv.constructor.name, 'getNodeLTS')
     done()
@@ -25,9 +26,16 @@ describe('index', function () {
     })
   })
 
-  it('prints a list of maintained LTS versions', function (done) {
+  it('prints a YAML list of maintained LTS versions', function (done) {
     ltsv.fetchLTS().then(() => {
       console.log(ltsv.yaml())
+      done()
+    })
+  })
+
+  it('prints a JSON list of maintained LTS versions', function (done) {
+    ltsv.fetchLTS().then(() => {
+      console.log(ltsv.json())
       done()
     })
   })

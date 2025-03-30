@@ -4,19 +4,22 @@
   "description": "Get the maintained LTS versions of Node.js",
   "main": "index.js",
   "dependencies": {
-    "@actions/core": "^1.10.1",
-    "semver": "^7.6.0"
+    "@actions/core": "^1.11.1",
+    "semver": "^7.7.1"
   },
   "devDependencies": {
-    "eslint": ">= 8",
-    "mocha": ">= 9"
+    "eslint": "9.23.0",
+    "mocha": "11.2.0"
   },
   "scripts": {
     "test": "npx mocha",
     "lint": "npx eslint *.js test",
     "lintfix": "npx eslint --fix *.js test",
     "build": "ncc build main.js --license licenses.txt",
-    "versions": "npx dependency-version-checker check"
+    "prettier": "npx prettier --check .",
+    "prettier:fix": "npx prettier --write .",
+    "versions": "npx dependency-version-checker check",
+    "versions:fix": "npx dependency-version-checker update"
   },
   "repository": {
     "type": "git",
