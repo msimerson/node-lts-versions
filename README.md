@@ -19,39 +19,38 @@ This action has the following outputs:
 
 At the time of writing, active=`[22]` and lts=`[18,20,22]`.
 
-
 #### manually (the normal way)
 
 ```yaml
-  test:
-    strategy:
-      matrix:
-        os: [ ubuntu-latest, windows-latest, macos-latest ]
-        node-version: [ 18, 20 ]
-      fail-fast: false
-    steps:
+test:
+  strategy:
+    matrix:
+      os: [ubuntu-latest, windows-latest, macos-latest]
+      node-version: [18, 20]
+    fail-fast: false
+  steps:
 ```
 
 #### automatically
 
 ```yaml
-  test:
-    needs: get-lts
-    strategy:
-      matrix:
-        os: [ ubuntu-latest, windows-latest, macos-latest ]
-        node-version: ${{ fromJson(needs.get-lts.outputs.lts) }}
-      fail-fast: false
-    steps:
-  get-lts:
-    runs-on: ubuntu-latest
-    steps:
-      - id: get
-        uses: msimerson/node-lts-versions@v1
-    outputs:
-      active: ${{ steps.get.outputs.active }}
-      lts: ${{ steps.get.outputs.lts }}
-      min: ${{ steps.get.outputs.min }}
+test:
+  needs: get-lts
+  strategy:
+    matrix:
+      os: [ubuntu-latest, windows-latest, macos-latest]
+      node-version: ${{ fromJson(needs.get-lts.outputs.lts) }}
+    fail-fast: false
+  steps:
+get-lts:
+  runs-on: ubuntu-latest
+  steps:
+    - id: get
+      uses: msimerson/node-lts-versions@v1
+  outputs:
+    active: ${{ steps.get.outputs.active }}
+    lts: ${{ steps.get.outputs.lts }}
+    min: ${{ steps.get.outputs.min }}
 ```
 
 ### Example
@@ -70,9 +69,9 @@ At the time of writing, active=`[22]` and lts=`[18,20,22]`.
 ```js
 const ltsv = require('node-lts-versions')
 ltsv.fetchLTS().then(() => {
-    console.log(ltsv.json())
-    console.log(ltsv.yaml())
-    ltsv.print()
+  console.log(ltsv.json())
+  console.log(ltsv.yaml())
+  ltsv.print()
 })
 ```
 
@@ -114,7 +113,6 @@ Display Node.js version information in YAML format.
 
 Display Node.js version information in tabular format.
 
-
 ```
 Ver Codename    Latest Release          LTS Period
 18    Hydrogen  v18.20.8 on 2025-03-27  2022-10-17 to 2025-04-17
@@ -127,7 +125,6 @@ Ver Codename    Latest Release          LTS Period
 - GitHub Actions: [New workflow features](https://github.blog/changelog/2020-04-15-github-actions-new-workflow-features/)
 - [Using tags for Release
   management](https://docs.github.com/en/enterprise-cloud@latest/actions/creating-actions/about-custom-actions#using-release-management-for-actions)
-
 
 ## Future
 

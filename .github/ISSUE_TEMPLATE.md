@@ -1,4 +1,3 @@
-
 ### Expected behavior
 
 ### Observed behavior

@@ -1,4 +1,3 @@
-
 const assert = require('assert')
 
 const ltsv = require('../index')
@@ -12,11 +11,13 @@ describe('index', function () {
   })
 
   it('fetch populates majorsLatest', function (done) {
-    ltsv.fetchLTS().then(() => {
-      assert.ok(Object.keys(ltsv.majorsLatest).length)
-      done()
-    })
-    .catch(done)
+    ltsv
+      .fetchLTS()
+      .then(() => {
+        assert.ok(Object.keys(ltsv.majorsLatest).length)
+        done()
+      })
+      .catch(done)
   })
 
   it('prints a report of maintained LTS versions', function (done) {

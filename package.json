@@ -40,5 +40,9 @@
   "bugs": {
     "url": "https://github.com/msimerson/node-lts-versions/issues"
   },
+  "prettier": {
+    "singleQuote": true,
+    "semi": false
+  },
   "homepage": "https://github.com/msimerson/node-lts-versions"
 }

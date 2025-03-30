@@ -1,6 +1,6 @@
 name: CI
 
-on: [ push, pull_request ]
+on: [push, pull_request]
 
 env:
   CI: true
@@ -9,48 +9,48 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      name: Node.js
-    - run: npm install
-    - run: npm run lint
-      env:
-        CI: true
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        name: Node.js
+      - run: npm install
+      - run: npm run lint
+        env:
+          CI: true
 
   test:
     needs: lint
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ ubuntu-latest, windows-latest, macos-latest ]
-        node-version: [ 'lts/*', 'lts/-1' ]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: ['lts/*', 'lts/-1']
       fail-fast: false
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      name: Node ${{ matrix.node-version }} on ${{ matrix.os }}
-      with:
-        node-version: ${{ matrix.node-version }}
-    - run: npm install
-    - run: npm test
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        name: Node ${{ matrix.node-version }} on ${{ matrix.os }}
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm install
+      - run: npm test
 
   coverage:
     needs: lint
     if: ${{ false }}
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-    - run: npm install
-    - name: run coverage
-      run: npx -y c8 --reporter=lcovonly npm test
-      env:
-        NODE_ENV: cov
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - run: npm install
+      - name: run coverage
+        run: npx -y c8 --reporter=lcovonly npm test
+        env:
+          NODE_ENV: cov
 
-    - name: codecov.io
-      uses: codecov/codecov-action@v4
+      - name: codecov.io
+        uses: codecov/codecov-action@v4
 
-    - name: coveralls.io
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.github_token }}
+      - name: coveralls.io
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
