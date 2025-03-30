@@ -1,88 +1,126 @@
 #!/usr/bin/env node
 
 const semver = require('semver')
+const util = require('node:util')
+
+const now = new Date().getTime()
 
 class getNodeLTS {
-  constructor (opts) {
+  constructor(opts) {
     if (opts === undefined) opts = {}
-
-    // https://nodejs.org/en/about/releases/ says, "..for a total of 30 months"
-    this.expire = {
-      days:   parseInt(opts.days,   10) ||  0,
-      months: parseInt(opts.months, 10) || 30,
-      years:  parseInt(opts.years,  10) ||  0,
-    }
 
     this.majorsLatest = {}
     this.majorsInitial = {}
   }
 
-  fetchLTS () {
+  fetchLTS() {
     return new Promise((resolve, reject) => {
-
       // cache
       if (Object.keys(this.majorsLatest).length > 0) return resolve()
 
-      this.nodeVersionData().then(versions => {
+      this.nodeVersionData()
+        .then((versions) => {
+          for (const v of versions) {
+            const major = semver.major(v.version) // ex: v12, v10, ...
 
-        for (const v of versions) {
-          const major = semver.major(v.version)  // ex: v12, v10, ...
+            // find the earliest release for each major
+            if (!this.majorsInitial[major]) this.majorsInitial[major] = v
+            if (semver.lt(v.version, this.majorsInitial[major].version)) {
+              this.majorsInitial[major] = v
+            }
 
-          // if (v.lts === false) continue      // ignore all but LTS
-          if (major % 2 !== 0) continue         // ignore odd releases
-
-          // find the earliest LTS release for each major
-          if (!this.majorsInitial[major]) this.majorsInitial[major] = v
-          if (semver.lt(v.version, this.majorsInitial[major].version)) {
-            this.majorsInitial[major] = v
+            // find the most recent release for each major
+            if (!this.majorsLatest[major]) this.majorsLatest[major] = v
+            if (semver.gt(v.version, this.majorsLatest[major].version)) {
+              this.majorsLatest[major] = v
+            }
           }
 
-          // find the largest LTS for each major
-          if (!this.majorsLatest[major]) this.majorsLatest[major] = v
-          if (semver.gt(v.version, this.majorsLatest[major].version)) {
-            this.majorsLatest[major] = v
+          // https://nodejs.org/en/about/previous-releases, 6 mo Current, 6 mo Active, 30 mo Maint
+          for (const [maj, obj] of Object.entries(this.majorsInitial)) {
+            this.majorsLatest[maj].dateEndCurrent = this.deltaDate(
+              obj.date,
+              [0, 6, 0],
+            )
+            if (maj % 2 === 0) {
+              this.majorsLatest[maj].dateStartLTS = this.deltaDate(
+                obj.date,
+                [0, 6, 0],
+              )
+              this.majorsLatest[maj].dateEndActiveLTS = this.deltaDate(
+                obj.date,
+                [0, 12, 0],
+              )
+              this.majorsLatest[maj].dateEndLTS = this.deltaDate(
+                obj.date,
+                [0, 36, 0],
+              )
+
+              if (this.majorsLatest[maj].dateEndLTS < now) {
+                delete this.majorsInitial[maj]
+                delete this.majorsLatest[maj]
+              }
+            } else {
+              if (this.majorsLatest[maj].dateEndCurrent < now) {
+                delete this.majorsInitial[maj]
+                delete this.majorsLatest[maj]
+              }
+            }
           }
-        }
 
-        for (const [maj, obj] of Object.entries(this.majorsInitial)) {
-          this.majorsLatest[maj].dateStartLTS = obj.date
-          this.majorsLatest[maj].dateEndLTS = this.getExpire(obj.date)
-        }
-
-        resolve()
-      })
-      .catch(err => {
-        console.error('Download error')
-        console.error(err.stack)
-        reject(err)
-      })
+          resolve()
+        })
+        .catch((err) => {
+          console.error('Download error')
+          console.error(err.stack)
+          reject(err)
+        })
     })
   }
 
-  filter (obj, predicate) {
+  filter(obj, predicate) {
     return Object.fromEntries(Object.entries(obj).filter(predicate))
   }
 
-  getActive (opts) {
-    const now = new Date().getTime()
-    function filterActive ([maj, obj]) {
-      return new Date(obj.dateEndLTS).getTime() > now
+  get(filter) {
+    let fn
+    switch (filter) {
+      case 'active':
+        fn = ([maj, obj]) => {
+          return obj.lts && obj.dateEndActiveLTS.getTime() > now
+        }
+        break
+      case 'maintenance':
+        fn = ([maj, obj]) => {
+          return (
+            obj.lts &&
+            obj.dateEndActiveLTS.getTime() < now &&
+            obj.dateEndLTS.getTime() > now
+          )
+        }
+        break
+      case 'lts':
+        fn = ([maj, obj]) => {
+          return obj.lts && obj.dateEndLTS.getTime() > now
+        }
+        break
+      default:
+        fn = ([maj, obj]) => {
+          return obj.dateEndCurrent.getTime() > now
+        }
     }
-    function filterActiveLTS ([maj, obj]) {
-      return obj.lts !== false && new Date(obj.dateEndLTS).getTime() > now
-    }
-    return Object.keys(this.filter(this.majorsLatest, opts?.lts ? filterActiveLTS : filterActive))
+    return Object.keys(this.filter(this.majorsLatest, fn))
   }
 
-  json (opts = {}) {
-    return JSON.stringify(this.getActive(opts))
+  json(opt) {
+    return JSON.stringify(this.get(opt))
   }
 
-  yaml (opts = {}) {
-    return this.getActive(opts)
+  yaml(opt) {
+    return this.get(opt)
   }
 
-  print (desire) {
+  print(desire) {
     switch (desire) {
       case 'initial':
         this._printInitial()
@@ -94,50 +132,61 @@ class getNodeLTS {
   }
 
   _printLatest() {
-    console.log(`Ver Codename\tLatest Release\t\tLTS Period`);
-    for (const m of this.getActive()) {
+    console.log(`Ver Codename\tLatest Release\t\tLTS Period`)
+    for (const m of this.get('lts')) {
       const v = this.majorsLatest[m]
-      console.log(`${m}  ${v.lts}\t${v.version}  ${v.date}\t${v.dateStartLTS} to ${v.dateEndLTS.toISOString().slice(0,10)}`)
+      console.log(
+        util.format(
+          `%s    %s\t%s on %s\t%s to %s`,
+          m,
+          v.lts,
+          v.version,
+          v.date,
+          v.dateStartLTS.toISOString().slice(0, 10),
+          v.dateEndLTS.toISOString().slice(0, 10),
+        ),
+      )
     }
   }
 
-  _printInitial () {
-    console.log(`\nMaj\tVersion \tRelease`);
+  _printInitial() {
+    console.log(`\nMaj\tVersion \tRelease`)
     for (const m in this.majorsInitial) {
       const v = this.majorsInitial[m]
-      if (new Date(v.dateEndLTS).getTime() < new Date().getTime()) continue
-      console.log(`${m}\t${v.version}  \t${v.date}`);
+      if (new Date(v.dateEndLTS).getTime() < now) continue
+      console.log(`${m}\t${v.version}  \t${v.date}`)
     }
   }
 
-  getExpire (ymd) {
-    return this.deltaDate(new Date(ymd));
-  }
-
-  deltaDate (input) {
+  deltaDate(input, ymd = [0, 6, 0]) {
     // https://stackoverflow.com/questions/37002681/subtract-days-months-years-from-a-date-in-javascript
+    input = new Date(input)
     return new Date(
-      input.getFullYear() + this.expire.years,
-      input.getMonth() + this.expire.months,
+      input.getFullYear() + ymd[2],
+      input.getMonth() + ymd[1],
       Math.min(
-        input.getDate() + this.expire.days,
-        new Date(input.getFullYear() + this.expire.years, input.getMonth() + this.expire.months + 1, 0).getDate()
-      )
-    );
+        input.getDate() + ymd[0],
+        new Date(
+          input.getFullYear() + ymd[2],
+          input.getMonth() + ymd[1] + 1,
+          0,
+        ).getDate(),
+      ),
+    )
   }
 
-  async nodeVersionData () {
-    const nodeOrg  = `https://nodejs.org/download/release`
-    const response = await fetch(`${nodeOrg}/index.json`);
-    const data     = await response.json();
+  async nodeVersionData() {
+    const nodeOrg = `https://nodejs.org/download/release`
+    const response = await fetch(`${nodeOrg}/index.json`)
+    const data = await response.json()
 
     if (!Array.isArray(data))
       throw new Error('Could not fetch Node.js version data from nodejs.org')
 
-    data.forEach((d) => {
+    for (const d of data) {
       d.name = 'Node.js'
-      d.url  = `${nodeOrg}/${d.version}/`
-    })
+      d.url = `${nodeOrg}/${d.version}/`
+    }
 
     data.sort(function (a, b) {
       return semver.compare(b.version, a.version)
