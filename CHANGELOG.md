@@ -2,6 +2,14 @@
 
 ### Unreleased
 
+### [1.7.0] - 2025-03-29
+
+- feat: add current & maintenance exports
+- improve tabular output
+- deps: bump dep versions
+- chore: update eslint to v9
+- chore: prettier
+
 ### [1.6.3] - 2024-02-07
 
 - fix: run 'make dist' to update the action
