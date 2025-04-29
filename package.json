@@ -3,13 +3,14 @@
   "version": "1.7.0",
   "description": "Get the maintained LTS versions of Node.js",
   "main": "index.js",
+  "files": [ "dist", "main.js", "action.yml" ],
   "dependencies": {
     "@actions/core": "^1.11.1",
     "semver": "^7.7.1"
   },
   "devDependencies": {
-    "eslint": "9.23.0",
-    "mocha": "11.2.0"
+    "eslint": "9.25.1",
+    "mocha": "11.2.2"
   },
   "scripts": {
     "test": "npx mocha",

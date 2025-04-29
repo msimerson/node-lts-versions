@@ -2,6 +2,13 @@
 
 ### Unreleased
 
+### [1.7.1] - 2025-04-29
+
+- feat: EOL dates end on the last day of the month
+- feat: get() defaults to 'lts', was 'current'
+- doc(README): expand on usages
+- test: add tests for deltaDate
+
 ### [1.7.0] - 2025-03-29
 
 - feat: add current & maintenance exports

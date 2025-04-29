@@ -53,7 +53,7 @@ class getNodeLTS {
               )
               this.majorsLatest[maj].dateEndLTS = this.deltaDate(
                 obj.date,
-                [0, 36, 0],
+                [0, 36, 31],
               )
 
               if (this.majorsLatest[maj].dateEndLTS < now) {
@@ -99,15 +99,16 @@ class getNodeLTS {
           )
         }
         break
+      case 'current':
+        fn = ([maj, obj]) => {
+          return obj.dateEndCurrent.getTime() > now
+        }
       case 'lts':
+      default:
         fn = ([maj, obj]) => {
           return obj.lts && obj.dateEndLTS.getTime() > now
         }
         break
-      default:
-        fn = ([maj, obj]) => {
-          return obj.dateEndCurrent.getTime() > now
-        }
     }
     return Object.keys(this.filter(this.majorsLatest, fn))
   }
@@ -161,18 +162,23 @@ class getNodeLTS {
   deltaDate(input, ymd = [0, 6, 0]) {
     // https://stackoverflow.com/questions/37002681/subtract-days-months-years-from-a-date-in-javascript
     input = new Date(input)
-    return new Date(
-      input.getFullYear() + ymd[2],
-      input.getMonth() + ymd[1],
-      Math.min(
-        input.getDate() + ymd[0],
-        new Date(
-          input.getFullYear() + ymd[2],
-          input.getMonth() + ymd[1] + 1,
-          0,
-        ).getDate(),
-      ),
-    )
+
+    const year = input.getFullYear() + ymd[0]
+    let month = input.getMonth() + ymd[1]
+    let day
+
+    if (ymd[2] === 31) {
+      // get the last day of the month the target date lands in
+      day = new Date(year, month + 1, 0).getDate()
+    }
+    else {
+      day = Math.min(
+        input.getDate() + ymd[2],
+        new Date(year, month + 1, 0).getDate(),
+      );
+    }
+
+    return new Date(year, month, day)
   }
 
   async nodeVersionData() {
