@@ -22,8 +22,8 @@
     "lint": "npx eslint *.js test",
     "lint:fix": "npx eslint --fix *.js test",
     "build": "ncc build main.js --license licenses.txt",
-    "prettier": "npx prettier --check .",
-    "prettier:fix": "npx prettier --write .",
+    "prettier": "npx prettier --ignore-path dist/index.js --check .",
+    "prettier:fix": "npx prettier --ignore-path dist/index.js --write .",
     "versions": "npx dependency-version-checker check",
     "versions:fix": "npx dependency-version-checker update",
     "format": "npm run prettier:fix && npm run lint:fix"
@@ -48,7 +48,6 @@
     "url": "https://github.com/msimerson/node-lts-versions/issues"
   },
   "prettier": {
-    "ignore": [ "dist" ],
     "singleQuote": true,
     "semi": false
   },
