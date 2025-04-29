@@ -103,6 +103,7 @@ class getNodeLTS {
         fn = ([maj, obj]) => {
           return obj.dateEndCurrent.getTime() > now
         }
+        break
       case 'lts':
       default:
         fn = ([maj, obj]) => {
