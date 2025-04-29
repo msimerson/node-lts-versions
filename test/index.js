@@ -43,7 +43,7 @@ describe('index', function () {
 })
 
 describe('deltaDate', function () {
-  const start = `2022-04-19T00:00:00.000Z`
+  const start = `2022-04-19T00:00:00.000`
 
   it('adds 1 day to a date', function () {
     assert.equal(
@@ -59,7 +59,7 @@ describe('deltaDate', function () {
   it('adds 1 year to a date', function () {
     assert.equal(
       ltsv.deltaDate(start, [1, 0, 0]).toISOString(),
-      '2023-04-18T00:00:00.000Z',
+      '2023-04-19T00:00:00.000Z',
     )
   })
 

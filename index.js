@@ -163,7 +163,9 @@ class getNodeLTS {
   deltaDate(input, ymd = [0, 6, 0]) {
     // https://stackoverflow.com/questions/37002681/subtract-days-months-years-from-a-date-in-javascript
     input = new Date(input)
+    // console.log('input ', input.toISOString())
 
+    const tzOffset = new Date().getTimezoneOffset() * 60000
     const year = input.getFullYear() + ymd[0]
     let month = input.getMonth() + ymd[1]
     let day
@@ -178,7 +180,7 @@ class getNodeLTS {
       )
     }
 
-    return new Date(year, month, day)
+    return new Date(new Date(year, month, day) - tzOffset)
   }
 
   async nodeVersionData() {
