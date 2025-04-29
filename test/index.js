@@ -71,3 +71,34 @@ describe('deltaDate', function () {
     assert.equal(ltsv.deltaDate(start, [0, 36, 31]).toISOString(), '2025-04-30T00:00:00.000Z')
   })
 })
+
+describe('get', function () {
+  it('fetches active version', async function () {
+    await ltsv.fetchLTS()
+    const active = ltsv.get('active')
+    console.log(active)
+    assert.ok(active[0])
+    assert.equal(active.length, 1)
+  })
+
+  it('fetches maintenance versions', async function () {
+    await ltsv.fetchLTS()
+    const maint = ltsv.get('maintenance')
+    console.log(maint)
+    assert.ok(maint.length)
+  })
+
+  it('fetches the current version', async function () {
+    await ltsv.fetchLTS()
+    const current = ltsv.get('current')
+    console.log(current)
+    assert.equal(current.length, 1)
+  })
+
+  it('fetches the LTS versions', async function () {
+    await ltsv.fetchLTS()
+    const lts = ltsv.get('lts')
+    console.log(lts)
+    assert.ok(lts.length)
+  })
+})

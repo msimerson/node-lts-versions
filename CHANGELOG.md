@@ -6,6 +6,7 @@
 
 - feat: EOL dates end on the last day of the month
 - feat: get() defaults to 'lts', was 'current'
+- fix: active is 12 months (was 6)
 - doc(README): expand on usages
 - test: add tests for deltaDate
 

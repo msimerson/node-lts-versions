@@ -1,7 +1,7 @@
 [![CI](https://github.com/msimerson/node-lts-versions/actions/workflows/ci.yml/badge.svg)](https://github.com/msimerson/node-lts-versions/actions/workflows/ci.yml)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
 
-# Node.js LTS versions
+# Node.js versions
 
 Avoid needing to update your CI config files for every Node.js release or EOL event.
 
@@ -19,9 +19,17 @@ This action has the following outputs:
 - `current` is the Current node version
 - `min` is the lowest LTS version
 
+#### active
+
+The currently active Node.js version. This is like a baton that is handed from one version of Node.js to the next.
+
+#### maintenance
+
+Every version of Node.js that is actively maintained by the Node.js project.
+
 #### lts
 
-This is the target most modules would use. It tests against every version of Node.js that is supported upstream.
+Similar to maintenance, except it excludes odd number releases that are never considered Long Term Stable. This is the target most modules should use in their CI tests.
 
 #### current
 

@@ -36,35 +36,40 @@ class getNodeLTS {
             }
           }
 
-          // https://nodejs.org/en/about/previous-releases, 6 mo Current, 6 mo Active, 30 mo Maint
+          // https://nodejs.org/en/about/previous-releases, 6 mo Current, 12 mo Active, 18 mo Maint
           for (const [maj, obj] of Object.entries(this.majorsInitial)) {
+
             this.majorsLatest[maj].dateEndCurrent = this.deltaDate(
               obj.date,
               [0, 6, 0],
             )
+
             if (maj % 2 === 0) {
               this.majorsLatest[maj].dateStartLTS = this.deltaDate(
                 obj.date,
                 [0, 6, 0],
               )
-              this.majorsLatest[maj].dateEndActiveLTS = this.deltaDate(
+              this.majorsLatest[maj].dateEndActive = this.deltaDate(
                 obj.date,
-                [0, 12, 0],
+                [0, 18, 0],
               )
               this.majorsLatest[maj].dateEndLTS = this.deltaDate(
                 obj.date,
                 [0, 36, 31],
               )
-
-              if (this.majorsLatest[maj].dateEndLTS < now) {
-                delete this.majorsInitial[maj]
-                delete this.majorsLatest[maj]
-              }
+              this.majorsLatest[maj].dateEOL = this.deltaDate(
+                obj.date,
+                [0, 36, 31],
+              )
             } else {
-              if (this.majorsLatest[maj].dateEndCurrent < now) {
-                delete this.majorsInitial[maj]
-                delete this.majorsLatest[maj]
-              }
+              this.majorsLatest[maj].dateEOL = this.deltaDate(
+                obj.date,
+                [0, 8, 0],
+              )
+            }
+            if (this.majorsLatest[maj].dateEOL < now) {
+              delete this.majorsInitial[maj]
+              delete this.majorsLatest[maj]
             }
           }
 
@@ -87,21 +92,21 @@ class getNodeLTS {
     switch (filter) {
       case 'active':
         fn = ([maj, obj]) => {
-          return obj.lts && obj.dateEndActiveLTS.getTime() > now
+          return obj.lts &&
+            obj.dateEndCurrent.getTime() < now &&
+            obj.dateEndActive.getTime() > now
         }
         break
       case 'maintenance':
         fn = ([maj, obj]) => {
-          return (
-            obj.lts &&
-            obj.dateEndActiveLTS.getTime() < now &&
-            obj.dateEndLTS.getTime() > now
-          )
+          return (obj.dateEOL.getTime() > now)
         }
         break
       case 'current':
         fn = ([maj, obj]) => {
-          return obj.dateEndCurrent.getTime() > now
+          return obj.lts &&
+            obj.dateEndCurrent.getTime() < now &&
+            obj.dateEndActive.getTime() > now
         }
         break
       case 'lts':
