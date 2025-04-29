@@ -1,16 +1,21 @@
 {
   "name": "node-lts-versions",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "description": "Get the maintained LTS versions of Node.js",
   "main": "index.js",
-  "files": [ "dist", "main.js", "action.yml" ],
+  "files": [
+    "dist",
+    "main.js",
+    "action.yml"
+  ],
   "dependencies": {
     "@actions/core": "^1.11.1",
     "semver": "^7.7.1"
   },
   "devDependencies": {
     "eslint": "9.25.1",
-    "mocha": "11.2.2"
+    "mocha": "11.2.2",
+    "@haraka/eslint-config": "^2.0.2"
   },
   "scripts": {
     "test": "npx mocha",
@@ -20,7 +25,8 @@
     "prettier": "npx prettier --check .",
     "prettier:fix": "npx prettier --write .",
     "versions": "npx dependency-version-checker check",
-    "versions:fix": "npx dependency-version-checker update"
+    "versions:fix": "npx dependency-version-checker update",
+    "format": "npm run prettier:fix && npm run lint:fix"
   },
   "repository": {
     "type": "git",

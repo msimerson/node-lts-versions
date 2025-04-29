@@ -99,8 +99,20 @@ deps: bump versions, update dist
 - switch default output from YAML to JSON
 - setOutput
 
-[1.5.2]: https://github.com/msimerson/node-lts-versions/releases/tag/1.5.2
-[1.6.0]: https://github.com/msimerson/node-lts-versions/releases/tag/1.6.0
-[1.6.1]: https://github.com/msimerson/node-lts-versions/releases/tag/1.6.1
-[1.6.2]: https://github.com/msimerson/node-lts-versions/releases/tag/1.6.2
-[1.6.3]: https://github.com/msimerson/node-lts-versions/releases/tag/1.6.3
+[1]: https://github.com/msimerson/node-lts-versions/releases/tag/v1
+[1.1.1]: https://github.com/msimerson/node-lts-versions/releases/tag/v1.1.1
+[1.2.2]: https://github.com/msimerson/node-lts-versions/releases/tag/v1.2.2
+[1.3.0]: https://github.com/msimerson/node-lts-versions/releases/tag/v1.3.0
+[1.3.2]: https://github.com/msimerson/node-lts-versions/releases/tag/v1.3.2
+[1.3.3]: https://github.com/msimerson/node-lts-versions/releases/tag/v1.3.3
+[1.4.2]: https://github.com/msimerson/node-lts-versions/releases/tag/v1.4.2
+[1.4.3]: https://github.com/msimerson/node-lts-versions/releases/tag/v1.4.3
+[1.5.0]: https://github.com/msimerson/node-lts-versions/releases/tag/v1.5.0
+[1.5.1]: https://github.com/msimerson/node-lts-versions/releases/tag/v1.5.1
+[1.5.2]: https://github.com/msimerson/node-lts-versions/releases/tag/v1.5.2
+[1.6.0]: https://github.com/msimerson/node-lts-versions/releases/tag/v1.6.0
+[1.6.1]: https://github.com/msimerson/node-lts-versions/releases/tag/v1.6.1
+[1.6.2]: https://github.com/msimerson/node-lts-versions/releases/tag/v1.6.2
+[1.6.3]: https://github.com/msimerson/node-lts-versions/releases/tag/v1.6.3
+[1.7.0]: https://github.com/msimerson/node-lts-versions/releases/tag/v1.7.0
+[1.7.1]: https://github.com/msimerson/node-lts-versions/releases/tag/v1.7.1
