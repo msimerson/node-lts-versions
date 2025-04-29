@@ -46,7 +46,10 @@ describe('deltaDate', function () {
   const start = `2022-04-19`
 
   it('adds 1 day to a date', function () {
-    assert.equal(ltsv.deltaDate(start, [0, 0, 1]).toISOString(), '2022-04-19T07:00:00.000Z')
+    assert.equal(
+      ltsv.deltaDate(start, [0, 0, 1]).toISOString(),
+      '2022-04-19T07:00:00.000Z',
+    )
   })
 
   it('adds 6 months to a date', function () {
@@ -56,7 +59,10 @@ describe('deltaDate', function () {
   })
 
   it('adds 1 year to a date', function () {
-    assert.equal(ltsv.deltaDate(start, [1, 0, 0]).toISOString(), '2023-04-18T07:00:00.000Z')
+    assert.equal(
+      ltsv.deltaDate(start, [1, 0, 0]).toISOString(),
+      '2023-04-18T07:00:00.000Z',
+    )
   })
 
   it('adds 36 months to a date', function () {
@@ -70,5 +76,4 @@ describe('deltaDate', function () {
     const end = ltsv.deltaDate(start, [0, 36, 31])
     assert.equal(end.toISOString(), '2025-04-30T07:00:00.000Z')
   })
-
 })

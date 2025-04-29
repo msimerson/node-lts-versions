@@ -175,12 +175,11 @@ class getNodeLTS {
     if (ymd[2] === 31) {
       // get the last day of the month the target date lands in
       day = new Date(year, month + 1, 0).getDate()
-    }
-    else {
+    } else {
       day = Math.min(
         input.getDate() + ymd[2],
         new Date(year, month + 1, 0).getDate(),
-      );
+      )
     }
 
     return new Date(year, month, day)

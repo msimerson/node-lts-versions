@@ -20,7 +20,7 @@
   "scripts": {
     "test": "npx mocha",
     "lint": "npx eslint *.js test",
-    "lintfix": "npx eslint --fix *.js test",
+    "lint:fix": "npx eslint --fix *.js test",
     "build": "ncc build main.js --license licenses.txt",
     "prettier": "npx prettier --check .",
     "prettier:fix": "npx prettier --write .",
@@ -48,6 +48,7 @@
     "url": "https://github.com/msimerson/node-lts-versions/issues"
   },
   "prettier": {
+    "ignore": [ "dist" ],
     "singleQuote": true,
     "semi": false
   },

@@ -29,7 +29,7 @@ The `current` version would usually be used in your CI tests to always tests you
 
 #### min
 
-The `min` version is the lowest supported version of Node.js. It couple be used for modules with scarce updates, whose SLA is a best effort to support *any* version of Node.js.
+The `min` version is the lowest supported version of Node.js. It couple be used for modules with scarce updates, whose SLA is a best effort to support _any_ version of Node.js.
 
 #### manually (the normal way)
 
