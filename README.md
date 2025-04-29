@@ -1,11 +1,13 @@
 [![CI](https://github.com/msimerson/node-lts-versions/actions/workflows/ci.yml/badge.svg)](https://github.com/msimerson/node-lts-versions/actions/workflows/ci.yml)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
 
-# Node.js LTS versions
+# Node.js versions
 
-Retrieve a list of [Release](https://nodejs.org/en/about/previous-releases) versions of Node.js and export the versions for consumption by automated processes.
+Avoid needing to update your CI config files for every Node.js release or EOL event.
 
-The output of the yaml function is designed to populate a GitHub Actions matrix declaration so that your CI is testing with the supported **LTS** version(s) of Node.js.
+This action retrieves a list of Node.js [release](https://nodejs.org/en/about/previous-releases) versions and exports the versions for consumption by automated processes.
+
+The output of the yaml function is designed to populate a GitHub Actions matrix declaration so that your CI is testing with the version(s) of Node.js you choose, typically the **LTS** version(s).
 
 ### Usage
 
@@ -17,7 +19,25 @@ This action has the following outputs:
 - `current` is the Current node version
 - `min` is the lowest LTS version
 
-At the time of writing, active=`[22]` and lts=`[18,20,22]`.
+#### active
+
+The currently active Node.js version. This is like a baton that is handed from one version of Node.js to the next.
+
+#### maintenance
+
+Every version of Node.js that is actively maintained by the Node.js project.
+
+#### lts
+
+Similar to maintenance, except it excludes odd number releases that are never considered Long Term Stable. This is the target most modules should use in their CI tests.
+
+#### current
+
+The `current` version would usually be used in your CI tests to always tests your code against the latest Node.js version, but perhaps without failing the CI tests.
+
+#### min
+
+The `min` version is the lowest supported version of Node.js. It couple be used for modules with scarce updates, whose SLA is a best effort to support _any_ version of Node.js.
 
 #### manually (the normal way)
 
@@ -26,7 +46,7 @@ test:
   strategy:
     matrix:
       os: [ubuntu-latest, windows-latest, macos-latest]
-      node-version: [18, 20]
+      node-version: [20, 22]
     fail-fast: false
   steps:
 ```
@@ -49,7 +69,9 @@ get-lts:
       uses: msimerson/node-lts-versions@v1
   outputs:
     active: ${{ steps.get.outputs.active }}
+    maintenance: ${{ steps.get.outputs.maintenance }}
     lts: ${{ steps.get.outputs.lts }}
+    current: ${{ steps.get.outputs.current }}
     min: ${{ steps.get.outputs.min }}
 ```
 
@@ -115,9 +137,9 @@ Display Node.js version information in tabular format.
 
 ```
 Ver Codename    Latest Release          LTS Period
-18    Hydrogen  v18.20.8 on 2025-03-27  2022-10-17 to 2025-04-17
-20    Iron      v20.19.0 on 2025-03-13  2023-10-16 to 2026-04-16
-22    Jod       v22.14.0 on 2025-02-11  2024-10-23 to 2027-04-23
+18    Hydrogen  v18.20.8 on 2025-03-27  2022-10-17 to 2025-04-30
+20    Iron      v20.19.1 on 2025-04-22  2023-10-16 to 2026-04-30
+22    Jod       v22.15.0 on 2025-04-22  2024-10-23 to 2027-04-30
 ```
 
 ## Reference

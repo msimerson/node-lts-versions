@@ -41,35 +41,40 @@ class getNodeLTS {
             }
           }
 
-          // https://nodejs.org/en/about/previous-releases, 6 mo Current, 6 mo Active, 30 mo Maint
+          // https://nodejs.org/en/about/previous-releases, 6 mo Current, 12 mo Active, 18 mo Maint
           for (const [maj, obj] of Object.entries(this.majorsInitial)) {
+
             this.majorsLatest[maj].dateEndCurrent = this.deltaDate(
               obj.date,
               [0, 6, 0],
             )
+
             if (maj % 2 === 0) {
               this.majorsLatest[maj].dateStartLTS = this.deltaDate(
                 obj.date,
                 [0, 6, 0],
               )
-              this.majorsLatest[maj].dateEndActiveLTS = this.deltaDate(
+              this.majorsLatest[maj].dateEndActive = this.deltaDate(
                 obj.date,
-                [0, 12, 0],
+                [0, 18, 0],
               )
               this.majorsLatest[maj].dateEndLTS = this.deltaDate(
                 obj.date,
-                [0, 36, 0],
+                [0, 36, 31],
               )
-
-              if (this.majorsLatest[maj].dateEndLTS < now) {
-                delete this.majorsInitial[maj]
-                delete this.majorsLatest[maj]
-              }
+              this.majorsLatest[maj].dateEOL = this.deltaDate(
+                obj.date,
+                [0, 36, 31],
+              )
             } else {
-              if (this.majorsLatest[maj].dateEndCurrent < now) {
-                delete this.majorsInitial[maj]
-                delete this.majorsLatest[maj]
-              }
+              this.majorsLatest[maj].dateEOL = this.deltaDate(
+                obj.date,
+                [0, 8, 0],
+              )
+            }
+            if (this.majorsLatest[maj].dateEOL < now) {
+              delete this.majorsInitial[maj]
+              delete this.majorsLatest[maj]
             }
           }
 
@@ -92,27 +97,29 @@ class getNodeLTS {
     switch (filter) {
       case 'active':
         fn = ([maj, obj]) => {
-          return obj.lts && obj.dateEndActiveLTS.getTime() > now
+          return obj.lts &&
+            obj.dateEndCurrent.getTime() < now &&
+            obj.dateEndActive.getTime() > now
         }
         break
       case 'maintenance':
         fn = ([maj, obj]) => {
-          return (
-            obj.lts &&
-            obj.dateEndActiveLTS.getTime() < now &&
-            obj.dateEndLTS.getTime() > now
-          )
+          return (obj.dateEOL.getTime() > now)
+        }
+        break
+      case 'current':
+        fn = ([maj, obj]) => {
+          return obj.lts &&
+            obj.dateEndCurrent.getTime() < now &&
+            obj.dateEndActive.getTime() > now
         }
         break
       case 'lts':
+      default:
         fn = ([maj, obj]) => {
           return obj.lts && obj.dateEndLTS.getTime() > now
         }
         break
-      default:
-        fn = ([maj, obj]) => {
-          return obj.dateEndCurrent.getTime() > now
-        }
     }
     return Object.keys(this.filter(this.majorsLatest, fn))
   }
@@ -166,18 +173,24 @@ class getNodeLTS {
   deltaDate(input, ymd = [0, 6, 0]) {
     // https://stackoverflow.com/questions/37002681/subtract-days-months-years-from-a-date-in-javascript
     input = new Date(input)
-    return new Date(
-      input.getFullYear() + ymd[2],
-      input.getMonth() + ymd[1],
-      Math.min(
-        input.getDate() + ymd[0],
-        new Date(
-          input.getFullYear() + ymd[2],
-          input.getMonth() + ymd[1] + 1,
-          0,
-        ).getDate(),
-      ),
-    )
+    // console.log('input ', input.toISOString())
+
+    const tzOffset = new Date().getTimezoneOffset() * 60000
+    const year = input.getFullYear() + ymd[0]
+    let month = input.getMonth() + ymd[1]
+    let day
+
+    if (ymd[2] === 31) {
+      // get the last day of the month the target date lands in
+      day = new Date(year, month + 1, 0).getDate()
+    } else {
+      day = Math.min(
+        input.getDate() + ymd[2],
+        new Date(year, month + 1, 0).getDate(),
+      )
+    }
+
+    return new Date(new Date(year, month, day) - tzOffset)
   }
 
   async nodeVersionData() {
