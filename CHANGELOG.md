@@ -2,6 +2,10 @@
 
 ### Unreleased
 
+### [1.7.2] - 2025-05-19
+
+- fix: current start date is now computed correctly
+
 ### [1.7.1] - 2025-04-29
 
 - feat: EOL dates end on the last day of the month

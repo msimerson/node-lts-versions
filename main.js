@@ -6,7 +6,7 @@ l.fetchLTS().then(() => {
   const active = l.json('active')
   const maint = l.json('maintenance')
   const lts = l.json('lts')
-  const current = l.json()
+  const current = l.json('current')
   const min = JSON.stringify(JSON.parse(lts)[0])
 
   if (useCore) {
