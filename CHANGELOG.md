@@ -2,6 +2,10 @@
 
 ### Unreleased
 
+### [1.7.2] - 2025-05-19
+
+- fix: current start date is now computed correctly
+
 ### [1.7.1] - 2025-04-29
 
 - feat: EOL dates end on the last day of the month
@@ -117,3 +121,4 @@ deps: bump versions, update dist
 [1.6.3]: https://github.com/msimerson/node-lts-versions/releases/tag/v1.6.3
 [1.7.0]: https://github.com/msimerson/node-lts-versions/releases/tag/v1.7.0
 [1.7.1]: https://github.com/msimerson/node-lts-versions/releases/tag/v1.7.1
+[1.7.2]: https://github.com/msimerson/node-lts-versions/releases/tag/v1.7.2

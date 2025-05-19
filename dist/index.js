@@ -28,7 +28,7 @@ class getNodeLTS {
           for (const v of versions) {
             const major = semver.major(v.version) // ex: v12, v10, ...
 
-            // find the earliest release for each major
+            // find the earliest release for each major version (starts Active/Current)
             if (!this.majorsInitial[major]) this.majorsInitial[major] = v
             if (semver.lt(v.version, this.majorsInitial[major].version)) {
               this.majorsInitial[major] = v
@@ -43,6 +43,9 @@ class getNodeLTS {
 
           // https://nodejs.org/en/about/previous-releases, 6 mo Current, 12 mo Active, 18 mo Maint
           for (const [maj, obj] of Object.entries(this.majorsInitial)) {
+
+            this.majorsLatest[maj].dateStartActive = this.deltaDate(obj.date, [0,0,0])
+            this.majorsLatest[maj].dateStartCurrent = this.deltaDate(obj.date, [0,0,0])
 
             this.majorsLatest[maj].dateEndCurrent = this.deltaDate(
               obj.date,
@@ -98,7 +101,7 @@ class getNodeLTS {
       case 'active':
         fn = ([maj, obj]) => {
           return obj.lts &&
-            obj.dateEndCurrent.getTime() < now &&
+            obj.dateStartActive.getTime() < now &&
             obj.dateEndActive.getTime() > now
         }
         break
@@ -109,9 +112,8 @@ class getNodeLTS {
         break
       case 'current':
         fn = ([maj, obj]) => {
-          return obj.lts &&
-            obj.dateEndCurrent.getTime() < now &&
-            obj.dateEndActive.getTime() > now
+          return obj.dateStartCurrent.getTime() < now &&
+            obj.dateEndCurrent.getTime() > now
         }
         break
       case 'lts':
@@ -6354,7 +6356,7 @@ l.fetchLTS().then(() => {
   const active = l.json('active')
   const maint = l.json('maintenance')
   const lts = l.json('lts')
-  const current = l.json()
+  const current = l.json('current')
   const min = JSON.stringify(JSON.parse(lts)[0])
 
   if (useCore) {
