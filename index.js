@@ -212,3 +212,4 @@ class getNodeLTS {
 }
 
 module.exports = new getNodeLTS()
+module.exports.getNodeLTS = getNodeLTS
