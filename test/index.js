@@ -102,3 +102,12 @@ describe('get', function () {
     assert.ok(lts.length)
   })
 })
+
+describe('exports', function () {
+  it('exports getNodeLTS', function () {
+    const getNodeLTS = require('../index').getNodeLTS
+    assert.equal(getNodeLTS.constructor.name, 'Function')
+    const ltsv2 = new getNodeLTS()
+    assert.equal(ltsv2.constructor.name, 'getNodeLTS')
+  })
+})
