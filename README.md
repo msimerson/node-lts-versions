@@ -97,6 +97,18 @@ ltsv.fetchLTS().then(() => {
 })
 ```
 
+or
+
+```js
+const { getNodeLTS } = require('node-lts-versions')
+const ltsv = new getNodeLTS()
+ltsv.fetchLTS().then(() => {
+  console.log(ltsv.json())
+  console.log(ltsv.yaml())
+  ltsv.print()
+})
+```
+
 ### Methods
 
 #### fetchLTS
