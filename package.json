@@ -1,6 +1,6 @@
 {
   "name": "node-lts-versions",
-  "version": "1.7.2",
+  "version": "1.7.3",
   "description": "Get the maintained LTS versions of Node.js",
   "main": "index.js",
   "files": [
