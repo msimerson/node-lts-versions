@@ -3,6 +3,7 @@
   "version": "1.7.3",
   "description": "Get the maintained LTS versions of Node.js",
   "main": "index.js",
+  "types": "index.d.ts",
   "files": [
     "dist",
     "main.js",
