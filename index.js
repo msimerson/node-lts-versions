@@ -172,7 +172,8 @@ class getNodeLTS {
     input = new Date(input)
     // console.log('input ', input.toISOString())
 
-    const tzOffset = new Date().getTimezoneOffset() * 60000
+    const tzOffset = new Date().getTimezoneOffset() / 60 // as hours
+
     const year = input.getFullYear() + ymd[0]
     let month = input.getMonth() + ymd[1]
     let day
@@ -187,7 +188,12 @@ class getNodeLTS {
       )
     }
 
-    return new Date(new Date(year, month, day) - tzOffset)
+    let dDate = new Date(new Date(year, month, day) - (tzOffset * 60 * 60 * 1000))
+
+    // hack for DST induced 1 hour offset
+    if (dDate.getUTCHours() === 23) dDate.setHours(dDate.getHours() + 1)
+
+    return dDate
   }
 
   async nodeVersionData() {

@@ -1,6 +1,6 @@
 {
   "name": "node-lts-versions",
-  "version": "1.7.3",
+  "version": "1.7.4",
   "description": "Get the maintained LTS versions of Node.js",
   "main": "index.js",
   "types": "index.d.ts",
@@ -11,12 +11,12 @@
     "action.yml"
   ],
   "dependencies": {
-    "@actions/core": "^1.11.1",
-    "semver": "^7.7.1"
+    "@actions/core": "^2.0.1",
+    "semver": "^7.7.3"
   },
   "devDependencies": {
-    "eslint": "9.25.1",
-    "mocha": "11.2.2",
+    "eslint": "9.39.2",
+    "mocha": "11.7.5",
     "@haraka/eslint-config": "^2.0.2"
   },
   "scripts": {

@@ -2,6 +2,13 @@
 
 ### Unreleased
 
+### [1.7.4] - 2026-01-05
+
+- fix: deltaDate removes a DST induced 1 hr offset
+- deps(all): bump versions to latest
+- feat: add index.d.ts #30
+- feat: include dts in files, #30
+
 ### [1.7.3] - 2025-09-23
 
 - feat: export getNodeLTS (#28)
@@ -127,3 +134,4 @@ deps: bump versions, update dist
 [1.7.1]: https://github.com/msimerson/node-lts-versions/releases/tag/v1.7.1
 [1.7.2]: https://github.com/msimerson/node-lts-versions/releases/tag/v1.7.2
 [1.7.3]: https://github.com/msimerson/node-lts-versions/releases/tag/v1.7.3
+[1.7.4]: https://github.com/msimerson/node-lts-versions/releases/tag/v1.7.4
