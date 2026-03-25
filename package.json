@@ -3,6 +3,7 @@
   "version": "1.7.5",
   "description": "Get the maintained LTS versions of Node.js",
   "main": "index.js",
+  "type": "module",
   "types": "index.d.ts",
   "files": [
     "dist",
@@ -11,19 +12,20 @@
     "action.yml"
   ],
   "dependencies": {
-    "@actions/core": "^2.0.3",
+    "@actions/core": "^3.0.0",
     "semver": "^7.7.4"
   },
   "devDependencies": {
-    "@haraka/eslint-config": "^2.0.4"
+    "@haraka/eslint-config": "^2.0.4",
+    "@vercel/ncc": "^0.38.4"
   },
   "scripts": {
     "test": "node --test test/index.js",
-    "lint": "npx eslint *.js test",
-    "lint:fix": "npx eslint --fix *.js test",
+    "lint": "npx eslint .",
+    "lint:fix": "npx eslint --fix .",
     "build": "ncc build main.js --license licenses.txt",
-    "prettier": "npx prettier --ignore-path dist/index.js --check .",
-    "prettier:fix": "npx prettier --ignore-path dist/index.js --write .",
+    "prettier": "npx prettier --check .",
+    "prettier:fix": "npx prettier --write .",
     "versions": "npx npm-dep-mgr check",
     "versions:fix": "npx npm-dep-mgr update",
     "format": "npm run prettier:fix && npm run lint:fix",
@@ -49,6 +51,7 @@
     "url": "https://github.com/msimerson/node-lts-versions/issues"
   },
   "prettier": {
+    "printWidth": 90,
     "singleQuote": true,
     "semi": false
   },

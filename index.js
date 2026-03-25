@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-const semver = require('semver')
-const util = require('node:util')
+import semver from 'semver'
+import util from 'node:util'
 
 const now = new Date().getTime()
 
@@ -188,6 +188,5 @@ class GetNodeLTS {
 }
 
 const instance = new GetNodeLTS()
-module.exports = instance
-module.exports.getNodeLTS = GetNodeLTS
-module.exports.GetNodeLTS = GetNodeLTS
+export default instance
+export { GetNodeLTS, GetNodeLTS as getNodeLTS }

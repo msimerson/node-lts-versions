@@ -13,6 +13,9 @@ const compat = new FlatCompat({
 })
 
 export default [
+  {
+    ignores: ['dist/'],
+  },
   ...compat.extends('eslint:recommended'),
   {
     languageOptions: {
@@ -20,7 +23,6 @@ export default [
         ...globals.node,
       },
     },
-
     rules: {
       'no-unused-vars': [
         'error',

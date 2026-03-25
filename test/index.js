@@ -1,7 +1,7 @@
-const { describe, it } = require('node:test')
-const assert = require('node:assert/strict')
+import { describe, it } from 'node:test'
+import assert from 'node:assert/strict'
 
-const ltsv = require('../index')
+import ltsv, { GetNodeLTS } from '../index.js'
 
 describe('index', function () {
   it('creates a GetNodeLTS', function () {
@@ -40,7 +40,10 @@ describe('deltaDate', function () {
   })
 
   it('adds 6 months to a date', function () {
-    assert.equal(ltsv.deltaDate(start, [0, 6, 0]).toISOString(), '2022-10-19T00:00:00.000Z')
+    assert.equal(
+      ltsv.deltaDate(start, [0, 6, 0]).toISOString(),
+      '2022-10-19T00:00:00.000Z',
+    )
   })
 
   it('adds 1 year to a date', function () {
@@ -51,11 +54,17 @@ describe('deltaDate', function () {
   })
 
   it('adds 36 months to a date', function () {
-    assert.equal(ltsv.deltaDate(start, [0, 36, 0]).toISOString(), '2025-04-19T00:00:00.000Z')
+    assert.equal(
+      ltsv.deltaDate(start, [0, 36, 0]).toISOString(),
+      '2025-04-19T00:00:00.000Z',
+    )
   })
 
   it('gets the last day of a future date', function () {
-    assert.equal(ltsv.deltaDate(start, [0, 36, 31]).toISOString(), '2025-04-30T00:00:00.000Z')
+    assert.equal(
+      ltsv.deltaDate(start, [0, 36, 31]).toISOString(),
+      '2025-04-30T00:00:00.000Z',
+    )
   })
 })
 
@@ -93,7 +102,6 @@ describe('get', function () {
 
 describe('exports', function () {
   it('exports GetNodeLTS', function () {
-    const { GetNodeLTS } = require('../index')
     assert.equal(typeof GetNodeLTS, 'function')
     const ltsv2 = new GetNodeLTS()
     assert.equal(ltsv2.constructor.name, 'GetNodeLTS')

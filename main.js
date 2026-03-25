@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-const core = require('@actions/core')
-const l = require('./index')
+import * as core from '@actions/core'
+import l from './index.js'
 
 async function run() {
   try {

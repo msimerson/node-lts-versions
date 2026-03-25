@@ -5,8 +5,10 @@
 ### [1.7.5] - 2026-03-24
 
 - action: using node20 -> node24
+- feat: switched to ESM
 - test: switch from mocha to node:test
 - style: es2024 patterns throughout
+- ci: updated workflows
 
 ### [1.7.4] - 2026-01-05
 
