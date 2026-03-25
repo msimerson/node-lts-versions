@@ -5,85 +5,62 @@ const util = require('node:util')
 
 const now = new Date().getTime()
 
-class getNodeLTS {
-  constructor(opts) {
-    if (opts === undefined) opts = {}
+class GetNodeLTS {
+  majorsLatest = {}
+  majorsInitial = {}
 
-    this.majorsLatest = {}
-    this.majorsInitial = {}
+  constructor(opts = {}) {
+    this.opts = opts
   }
 
-  fetchLTS() {
-    return new Promise((resolve, reject) => {
-      // cache
-      if (Object.keys(this.majorsLatest).length > 0) return resolve()
+  async fetchLTS() {
+    // cache
+    if (Object.keys(this.majorsLatest).length > 0) return
 
-      this.nodeVersionData()
-        .then((versions) => {
-          for (const v of versions) {
-            const major = semver.major(v.version) // ex: v12, v10, ...
+    try {
+      const versions = await this.nodeVersionData()
+      for (const v of versions) {
+        const major = semver.major(v.version) // ex: v12, v10, ...
 
-            // find the earliest release for each major version (starts Active/Current)
-            if (!this.majorsInitial[major]) this.majorsInitial[major] = v
-            if (semver.lt(v.version, this.majorsInitial[major].version)) {
-              this.majorsInitial[major] = v
-            }
+        // find the earliest release for each major version (starts Active/Current)
+        if (!this.majorsInitial[major]) this.majorsInitial[major] = v
+        if (semver.lt(v.version, this.majorsInitial[major].version)) {
+          this.majorsInitial[major] = v
+        }
 
-            // find the most recent release for each major
-            if (!this.majorsLatest[major]) this.majorsLatest[major] = v
-            if (semver.gt(v.version, this.majorsLatest[major].version)) {
-              this.majorsLatest[major] = v
-            }
-          }
+        // find the most recent release for each major
+        if (!this.majorsLatest[major]) this.majorsLatest[major] = v
+        if (semver.gt(v.version, this.majorsLatest[major].version)) {
+          this.majorsLatest[major] = v
+        }
+      }
 
-          // https://nodejs.org/en/about/previous-releases, 6 mo Current, 12 mo Active, 18 mo Maint
-          for (const [maj, obj] of Object.entries(this.majorsInitial)) {
+      // https://nodejs.org/en/about/previous-releases, 6 mo Current, 12 mo Active, 18 mo Maint
+      for (const [maj, obj] of Object.entries(this.majorsInitial)) {
+        const major = Number(maj)
+        this.majorsLatest[major].dateStartActive = this.deltaDate(obj.date, [0, 0, 0])
+        this.majorsLatest[major].dateStartCurrent = this.deltaDate(obj.date, [0, 0, 0])
 
-            this.majorsLatest[maj].dateStartActive = this.deltaDate(obj.date, [0,0,0])
-            this.majorsLatest[maj].dateStartCurrent = this.deltaDate(obj.date, [0,0,0])
+        this.majorsLatest[major].dateEndCurrent = this.deltaDate(obj.date, [0, 6, 0])
 
-            this.majorsLatest[maj].dateEndCurrent = this.deltaDate(
-              obj.date,
-              [0, 6, 0],
-            )
-
-            if (maj % 2 === 0) {
-              this.majorsLatest[maj].dateStartLTS = this.deltaDate(
-                obj.date,
-                [0, 6, 0],
-              )
-              this.majorsLatest[maj].dateEndActive = this.deltaDate(
-                obj.date,
-                [0, 18, 0],
-              )
-              this.majorsLatest[maj].dateEndLTS = this.deltaDate(
-                obj.date,
-                [0, 36, 31],
-              )
-              this.majorsLatest[maj].dateEOL = this.deltaDate(
-                obj.date,
-                [0, 36, 31],
-              )
-            } else {
-              this.majorsLatest[maj].dateEOL = this.deltaDate(
-                obj.date,
-                [0, 8, 0],
-              )
-            }
-            if (this.majorsLatest[maj].dateEOL < now) {
-              delete this.majorsInitial[maj]
-              delete this.majorsLatest[maj]
-            }
-          }
-
-          resolve()
-        })
-        .catch((err) => {
-          console.error('Download error')
-          console.error(err.stack)
-          reject(err)
-        })
-    })
+        if (major % 2 === 0) {
+          this.majorsLatest[major].dateStartLTS = this.deltaDate(obj.date, [0, 6, 0])
+          this.majorsLatest[major].dateEndActive = this.deltaDate(obj.date, [0, 18, 0])
+          this.majorsLatest[major].dateEndLTS = this.deltaDate(obj.date, [0, 36, 31])
+          this.majorsLatest[major].dateEOL = this.deltaDate(obj.date, [0, 36, 31])
+        } else {
+          this.majorsLatest[major].dateEOL = this.deltaDate(obj.date, [0, 8, 0])
+        }
+        if (this.majorsLatest[major].dateEOL.getTime() < now) {
+          delete this.majorsInitial[major]
+          delete this.majorsLatest[major]
+        }
+      }
+    } catch (err) {
+      console.error('Download error')
+      console.error(err.stack)
+      throw err
+    }
   }
 
   filter(obj, predicate) {
@@ -94,26 +71,29 @@ class getNodeLTS {
     let fn
     switch (filter) {
       case 'active':
-        fn = ([maj, obj]) => {
-          return obj.lts &&
+        fn = ([, obj]) => {
+          return (
+            obj.lts &&
             obj.dateStartActive.getTime() < now &&
             obj.dateEndActive.getTime() > now
+          )
         }
         break
       case 'maintenance':
-        fn = ([maj, obj]) => {
-          return (obj.dateEOL.getTime() > now)
+        fn = ([, obj]) => {
+          return obj.dateEOL.getTime() > now
         }
         break
       case 'current':
-        fn = ([maj, obj]) => {
-          return obj.dateStartCurrent.getTime() < now &&
-            obj.dateEndCurrent.getTime() > now
+        fn = ([, obj]) => {
+          return (
+            obj.dateStartCurrent.getTime() < now && obj.dateEndCurrent.getTime() > now
+          )
         }
         break
       case 'lts':
       default:
-        fn = ([maj, obj]) => {
+        fn = ([, obj]) => {
           return obj.lts && obj.dateEndLTS.getTime() > now
         }
         break
@@ -162,60 +142,52 @@ class getNodeLTS {
     console.log(`\nMaj\tVersion \tRelease`)
     for (const m in this.majorsInitial) {
       const v = this.majorsInitial[m]
-      if (new Date(v.dateEndLTS).getTime() < now) continue
+      const eol = v.dateEndLTS || v.dateEOL
+      if (eol && eol.getTime() < now) continue
       console.log(`${m}\t${v.version}  \t${v.date}`)
     }
   }
 
   deltaDate(input, ymd = [0, 6, 0]) {
-    // https://stackoverflow.com/questions/37002681/subtract-days-months-years-from-a-date-in-javascript
-    input = new Date(input)
-    // console.log('input ', input.toISOString())
+    const d = new Date(input)
+    // Use UTC to avoid timezone/DST issues as Node.js release dates are date-only
+    const year = d.getUTCFullYear() + ymd[0]
+    const month = d.getUTCMonth() + ymd[1]
+    let day = d.getUTCDate() + ymd[2]
 
-    const tzOffset = new Date().getTimezoneOffset() / 60 // as hours
-
-    const year = input.getFullYear() + ymd[0]
-    let month = input.getMonth() + ymd[1]
-    let day
-
+    // If day 31 is requested, or if the calculated day exceeds the last day of the month
+    const lastDayOfMonth = new Date(Date.UTC(year, month + 1, 0)).getUTCDate()
     if (ymd[2] === 31) {
-      // get the last day of the month the target date lands in
-      day = new Date(year, month + 1, 0).getDate()
+      day = lastDayOfMonth
     } else {
-      day = Math.min(
-        input.getDate() + ymd[2],
-        new Date(year, month + 1, 0).getDate(),
-      )
+      day = Math.min(day, lastDayOfMonth)
     }
 
-    let dDate = new Date(new Date(year, month, day) - (tzOffset * 60 * 60 * 1000))
-
-    // hack for DST induced 1 hour offset
-    if (dDate.getUTCHours() === 23) dDate.setHours(dDate.getHours() + 1)
-
-    return dDate
+    return new Date(Date.UTC(year, month, day))
   }
 
   async nodeVersionData() {
     const nodeOrg = `https://nodejs.org/download/release`
     const response = await fetch(`${nodeOrg}/index.json`)
+    if (!response.ok) {
+      throw new Error(`Failed to fetch Node.js versions: ${response.statusText}`)
+    }
     const data = await response.json()
 
-    if (!Array.isArray(data))
+    if (!Array.isArray(data)) {
       throw new Error('Could not fetch Node.js version data from nodejs.org')
+    }
 
     for (const d of data) {
       d.name = 'Node.js'
       d.url = `${nodeOrg}/${d.version}/`
     }
 
-    data.sort(function (a, b) {
-      return semver.compare(b.version, a.version)
-    })
-
-    return data
+    return data.toSorted((a, b) => semver.compare(b.version, a.version))
   }
 }
 
-module.exports = new getNodeLTS()
-module.exports.getNodeLTS = getNodeLTS
+const instance = new GetNodeLTS()
+module.exports = instance
+module.exports.getNodeLTS = GetNodeLTS
+module.exports.GetNodeLTS = GetNodeLTS

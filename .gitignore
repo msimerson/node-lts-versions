@@ -103,3 +103,5 @@ typings/
 .tern-port
 
 package-lock.json
+GEMINI.md
+CLAUDE.md

@@ -2,6 +2,12 @@
 
 ### Unreleased
 
+### [1.7.5] - 2026-03-24
+
+- action: using node20 -> node24
+- test: switch from mocha to node:test
+- style: es2024 patterns throughout
+
 ### [1.7.4] - 2026-01-05
 
 - fix: deltaDate removes a DST induced 1 hr offset
@@ -135,3 +141,4 @@ deps: bump versions, update dist
 [1.7.2]: https://github.com/msimerson/node-lts-versions/releases/tag/v1.7.2
 [1.7.3]: https://github.com/msimerson/node-lts-versions/releases/tag/v1.7.3
 [1.7.4]: https://github.com/msimerson/node-lts-versions/releases/tag/v1.7.4
+[1.7.5]: https://github.com/msimerson/node-lts-versions/releases/tag/v1.7.5

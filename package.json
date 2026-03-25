@@ -1,6 +1,6 @@
 {
   "name": "node-lts-versions",
-  "version": "1.7.4",
+  "version": "1.7.5",
   "description": "Get the maintained LTS versions of Node.js",
   "main": "index.js",
   "types": "index.d.ts",
@@ -11,24 +11,23 @@
     "action.yml"
   ],
   "dependencies": {
-    "@actions/core": "^2.0.1",
-    "semver": "^7.7.3"
+    "@actions/core": "^2.0.3",
+    "semver": "^7.7.4"
   },
   "devDependencies": {
-    "eslint": "9.39.2",
-    "mocha": "11.7.5",
-    "@haraka/eslint-config": "^2.0.2"
+    "@haraka/eslint-config": "^2.0.4"
   },
   "scripts": {
-    "test": "npx mocha",
+    "test": "node --test test/index.js",
     "lint": "npx eslint *.js test",
     "lint:fix": "npx eslint --fix *.js test",
     "build": "ncc build main.js --license licenses.txt",
     "prettier": "npx prettier --ignore-path dist/index.js --check .",
     "prettier:fix": "npx prettier --ignore-path dist/index.js --write .",
-    "versions": "npx dependency-version-checker check",
-    "versions:fix": "npx dependency-version-checker update",
-    "format": "npm run prettier:fix && npm run lint:fix"
+    "versions": "npx npm-dep-mgr check",
+    "versions:fix": "npx npm-dep-mgr update",
+    "format": "npm run prettier:fix && npm run lint:fix",
+    "test:coverage": "npx c8 --reporter=text --reporter=text-summary npm test"
   },
   "repository": {
     "type": "git",
