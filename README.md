@@ -11,13 +11,13 @@ Stop hardcoding Node.js versions in your CI. This GitHub Action publishes the cu
 
 ### Outputs
 
-| Output | Description |
-|---|---|
-| `lts` | All maintained LTS versions (active + maintenance) |
-| `active` | Versions in the Active LTS phase |
-| `maintenance` | All non-EOL versions |
-| `current` | The Current (non-LTS) release, or the highest LTS version between release cycles |
-| `min` | The lowest maintained LTS version |
+| Output        | Description                                                                      |
+| ------------- | -------------------------------------------------------------------------------- |
+| `lts`         | All maintained LTS versions (active + maintenance)                               |
+| `active`      | Versions in the Active LTS phase                                                 |
+| `maintenance` | All non-EOL versions                                                             |
+| `current`     | The Current (non-LTS) release, or the highest LTS version between release cycles |
+| `min`         | The lowest maintained LTS version                                                |
 
 #### lts
 
@@ -111,9 +111,9 @@ Fetches the Node.js release index and populates the internal version data. Concu
 Returns a JSON string containing an array of major version numbers matching `filter`. Defaults to `'lts'`.
 
 ```js
-ltsv.json('active')       // '["24"]'
-ltsv.json('lts')          // '["20","22","24"]'
-ltsv.json()               // '["20","22","24"]'
+ltsv.json('active') // '["24"]'
+ltsv.json('lts') // '["20","22","24"]'
+ltsv.json() // '["20","22","24"]'
 ```
 
 #### get(filter?)
@@ -121,10 +121,10 @@ ltsv.json()               // '["20","22","24"]'
 Returns an array of major version number strings matching `filter`. Accepts `'lts'` (default), `'active'`, `'maintenance'`, or `'current'`.
 
 ```js
-ltsv.get('lts')           // [ '20', '22', '24' ]
-ltsv.get('active')        // [ '24' ]
-ltsv.get('maintenance')   // [ '20', '22', '24' ]
-ltsv.get('current')       // [ '25' ]
+ltsv.get('lts') // [ '20', '22', '24' ]
+ltsv.get('active') // [ '24' ]
+ltsv.get('maintenance') // [ '20', '22', '24' ]
+ltsv.get('current') // [ '25' ]
 ```
 
 #### print(mode?)
