@@ -8,7 +8,7 @@
 - test: switch coverage to node:test
 - test: increase coverage to 100%
 - ci: add explicit minimal permissions
-- doc(README): add qlty badge
+- doc(README): add qlty & cov badges
 
 ### [1.7.6] - 2026-04-16
 

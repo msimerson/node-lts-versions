@@ -3,45 +3,45 @@
 [![codecov][cov-img]][cov-uri]
 [![Maintainability][qlty-img]][qlty-uri]
 
-# Node.js versions
+# node-lts-versions
 
-Avoid needing to update your CI config files for every Node.js release or EOL event.
+Stop hardcoding Node.js versions in your CI. This GitHub Action publishes the current Node.js [release](https://nodejs.org/en/about/previous-releases) schedule as job outputs, so your matrix stays up-to-date without manual updates.
 
-This action retrieves a list of Node.js [release](https://nodejs.org/en/about/previous-releases) versions and exports the versions for consumption by automated processes.
+## GitHub Actions
 
-The output of the yaml function is designed to populate a GitHub Actions matrix declaration so that your CI is testing with the version(s) of Node.js you choose, typically the **LTS** version(s).
+### Outputs
 
-### Usage
-
-This action has the following outputs:
-
-- `active` are Active LTS versions
-- `maintenance` are Maintenance LTS versions
-- `lts` is all LTS versions (active + maintenance)
-- `current` is the Current node version
-- `min` is the lowest LTS version
-
-#### active
-
-The currently active Node.js version. This is like a baton that is handed from one version of Node.js to the next.
-
-#### maintenance
-
-Every version of Node.js that is actively maintained by the Node.js project.
+| Output | Description |
+|---|---|
+| `lts` | All maintained LTS versions (active + maintenance) |
+| `active` | Versions in the Active LTS phase |
+| `maintenance` | All non-EOL versions |
+| `current` | The Current (non-LTS) release, or the highest LTS version between release cycles |
+| `min` | The lowest maintained LTS version |
 
 #### lts
 
-Similar to maintenance, except it excludes odd number releases that are never considered Long Term Stable. This is the target most modules should use in their CI tests.
+The most useful output for most projects. Use this to test against every version the Node.js project still maintains as LTS. Odd-numbered releases (which never receive LTS status) are excluded.
+
+#### active
+
+Versions currently in the Active LTS phase — a narrower target for projects that want to track the leading edge of LTS without including older maintenance releases.
+
+#### maintenance
+
+Every non-EOL version, including the Current release. Wider than `lts`; useful if you want the broadest possible compatibility signal.
 
 #### current
 
-The `current` version can be used in CI to test against the latest Node.js version, but perhaps without failing the CI tests. Current is sometimes empty between release cycles. When that happens, the highest maintenance version is returned instead.
+The newest Node.js release, still in its initial six-month window before transitioning to LTS. Useful for catching breakage early, typically in an allow-failure job. Returns the highest LTS version when no Current release is active.
 
 #### min
 
-The `min` version is the lowest supported version of Node.js. It could be used for modules with scarce updates, whose SLA is a best effort to support _any_ version of Node.js.
+The lowest maintained LTS version. Useful for projects that want to guarantee a minimum supported version without tracking every release.
 
-#### manually (the normal way)
+### Hardcoded versions
+
+If you prefer to control the matrix yourself, you can pin versions directly:
 
 ```yaml
 test:
@@ -53,7 +53,9 @@ test:
   steps:
 ```
 
-#### automatically
+### Auto-updating versions
+
+To keep the matrix current automatically, add a `get-lts` job and reference its outputs:
 
 ```yaml
 test:
@@ -68,7 +70,7 @@ get-lts:
   runs-on: ubuntu-latest
   steps:
     - id: get
-      uses: msimerson/node-lts-versions@v1
+      uses: msimerson/node-lts-versions@v2
   outputs:
     active: ${{ steps.get.outputs.active }}
     maintenance: ${{ steps.get.outputs.maintenance }}
@@ -77,90 +79,70 @@ get-lts:
     min: ${{ steps.get.outputs.min }}
 ```
 
-### Example
+## JavaScript API
 
-```sh
-✗ node main.js
-active=["22"]
-maintenance=["18","20","22"]
-lts=["18","20","22"]
-current=["24"]
-min="18"
-```
-
-#### RAW
+Install the package and import the default singleton or the class directly:
 
 ```js
 import ltsv from 'node-lts-versions'
 await ltsv.fetchLTS()
-console.log(ltsv.json())
-console.log(ltsv.yaml())
+console.log(ltsv.json('lts'))
+console.log(ltsv.get('lts'))
 ltsv.print()
 ```
-
-or
 
 ```js
 import { getNodeLTS } from 'node-lts-versions'
 const ltsv = new getNodeLTS()
 await ltsv.fetchLTS()
-console.log(ltsv.json())
-console.log(ltsv.yaml())
+console.log(ltsv.json('lts'))
+console.log(ltsv.get('lts'))
 ltsv.print()
 ```
 
 ### Methods
 
-#### fetchLTS
+#### fetchLTS()
 
-Retrieves Node.js version information.
+Fetches the Node.js release index and populates the internal version data. Concurrent calls share the same request. Call this once before using any other method.
 
-#### json
+#### json(filter?)
 
-Display Node.js version information in JSON format.
-
-```js
-> ltsv.json('active')
-'["22"]'
-> ltsv.json('lts')
-'["18","20","22"]'
-> ltsv.json()
-'["18","20","22"]'
-```
-
-#### yaml
-
-Display Node.js version information in YAML format.
+Returns a JSON string containing an array of major version numbers matching `filter`. Defaults to `'lts'`.
 
 ```js
-> ltsv.yaml('lts')
-[ '18', '20', '22' ]
-> ltsv.yaml('active')
-[ '22' ]
-> ltsv.yaml('maintenance')
-[ '18', '20' ]
-> ltsv.yaml('current')
-[ '23' ]
+ltsv.json('active')       // '["24"]'
+ltsv.json('lts')          // '["20","22","24"]'
+ltsv.json()               // '["20","22","24"]'
 ```
 
-#### print
+#### get(filter?)
 
-Display Node.js version information in tabular format.
+Returns an array of major version number strings matching `filter`. Accepts `'lts'` (default), `'active'`, `'maintenance'`, or `'current'`.
+
+```js
+ltsv.get('lts')           // [ '20', '22', '24' ]
+ltsv.get('active')        // [ '24' ]
+ltsv.get('maintenance')   // [ '20', '22', '24' ]
+ltsv.get('current')       // [ '25' ]
+```
+
+#### print(mode?)
+
+Prints a formatted table to stdout. Pass `'initial'` to show the first release of each major version; omit or pass `'lts'` for the latest releases with LTS dates.
 
 ```
-Ver Codename	Latest Release	        LTS Period
-20    Iron    v20.20.2 on 2026-03-24  2023-10-17 to 2026-04-30
-22    Jod     v22.22.2 on 2026-03-24  2024-10-24 to 2027-04-30
-24    Krypton v24.15.0 on 2026-04-15  2025-11-06 to 2028-05-31
+Ver Codename  Latest Release           LTS Period
+20    Iron    v20.20.2 on 2026-03-24   2023-10-17 to 2026-04-30
+22    Jod     v22.22.2 on 2026-03-24   2024-10-24 to 2027-04-30
+24    Krypton v24.15.0 on 2026-04-15   2025-11-06 to 2028-05-31
 ```
 
 ## Reference
 
-- GitHub Actions:
-  - [Workflow Syntax](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax)
-  - [GHA workflow features](https://github.blog/changelog/2020-04-15-github-actions-new-workflow-features/)
-- [Using tags for Release
-  management](https://docs.github.com/en/enterprise-cloud@latest/actions/creating-actions/about-custom-actions#using-release-management-for-actions)
+- [Node.js release schedule](https://nodejs.org/en/about/previous-releases)
+- GitHub Actions: [workflow syntax](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax) · [new workflow features](https://github.blog/changelog/2020-04-15-github-actions-new-workflow-features/)
+- [Release management for Actions](https://docs.github.com/en/enterprise-cloud@latest/actions/creating-actions/about-custom-actions#using-release-management-for-actions)
 
 [ci-img]: https://github.com/msimerson/node-lts-versions/actions/workflows/ci.yml/badge.svg
 [ci-uri]: https://github.com/msimerson/node-lts-versions/actions/workflows/ci.yml
@@ -169,4 +151,4 @@ Ver Codename	Latest Release	        LTS Period
 [qlty-img]: https://qlty.sh/gh/msimerson/projects/node-lts-versions/maintainability.svg
 [qlty-uri]: https://qlty.sh/gh/msimerson/projects/node-lts-versions
 [cov-img]: https://codecov.io/gh/msimerson/node-lts-versions/graph/badge.svg
-[cov-uri]:https://codecov.io/gh/msimerson/node-lts-versions
+[cov-uri]: https://codecov.io/gh/msimerson/node-lts-versions
