@@ -34,7 +34,7 @@
     "versions:fix": "npx npm-dep-mgr update",
     "format": "npm run prettier:fix && npm run lint:fix",
     "test:coverage": "node --test --experimental-test-coverage test/*.js",
-    "test:coverage:lcov": "node --test --experimental-test-coverage --test-reporter=lcov test/*.js"     
+    "test:coverage:lcov": "node --test --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=lcov.info test/*.js"
   },
   "repository": {
     "type": "git",
