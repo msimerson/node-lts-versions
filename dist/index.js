@@ -33737,18 +33737,24 @@ class GetNodeLTS {
     }
 
     const raw = await response.text()
-    if (raw.length > MAX_RESPONSE_BYTES) {
-      throw new Error(`Node.js version index unexpectedly large: ${raw.length} bytes`)
+    const rawBytes = Buffer.byteLength(raw, 'utf8')
+    if (rawBytes > MAX_RESPONSE_BYTES) {
+      throw new Error(`Node.js version index unexpectedly large: ${rawBytes} bytes`)
     }
 
-    const data = JSON.parse(raw)
+    let data
+    try {
+      data = JSON.parse(raw)
+    } catch {
+      throw new Error(`JSON response from ${nodeOrg}/index.json is unparsable`)
+    }
 
     if (!Array.isArray(data)) {
       throw new Error('Could not fetch Node.js version data from nodejs.org')
     }
 
     for (const d of data) {
-      if (typeof d.version !== 'string' || !d.version.startsWith('v')) {
+      if (typeof d.version !== 'string' || !semver.valid(d.version)) {
         throw new Error(`Unexpected version entry in Node.js index: ${JSON.stringify(d)}`)
       }
       d.name = 'Node.js'
