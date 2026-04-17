@@ -1,5 +1,6 @@
-[![CI](https://github.com/msimerson/node-lts-versions/actions/workflows/ci.yml/badge.svg)](https://github.com/msimerson/node-lts-versions/actions/workflows/ci.yml)
-[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
+[![CI][ci-img]][ci-uri]
+[![Conventional Commits][cc-img]][cc-uri]
+[![Maintainability][qlty-img]][qlty-uri]
 
 # Node.js versions
 
@@ -154,6 +155,15 @@ Ver Codename	Latest Release	        LTS Period
 
 ## Reference
 
-- GitHub Actions: [New workflow features](https://github.blog/changelog/2020-04-15-github-actions-new-workflow-features/)
+- GitHub Actions:
+  - [Workflow Syntax](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax)
+  - [GHA workflow features](https://github.blog/changelog/2020-04-15-github-actions-new-workflow-features/)
 - [Using tags for Release
   management](https://docs.github.com/en/enterprise-cloud@latest/actions/creating-actions/about-custom-actions#using-release-management-for-actions)
+
+[ci-img]: https://github.com/msimerson/node-lts-versions/actions/workflows/ci.yml/badge.svg
+[ci-uri]: https://github.com/msimerson/node-lts-versions/actions/workflows/ci.yml
+[cc-img]: https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white
+[cc-uri]: https://conventionalcommits.org
+[qlty-img]: https://qlty.sh/gh/msimerson/projects/node-lts-versions/maintainability.svg
+[qlty-uri]: https://qlty.sh/gh/msimerson/projects/node-lts-versions

@@ -18,6 +18,11 @@ describe('index', function () {
     ltsv.print('lts')
   })
 
+  it('prints an initial release report', async function () {
+    await ltsv.fetchLTS()
+    ltsv.print('initial')
+  })
+
   it('prints a YAML list of maintained LTS versions', async function () {
     await ltsv.fetchLTS()
     console.log(ltsv.yaml())
@@ -91,7 +96,9 @@ describe('get', function () {
     // current can be empty between Node.js release cycles
     console.log(current)
     assert.ok(Array.isArray(current))
-    assert.ok(current.every((version) => typeof version === 'string' && /^\d+$/.test(version)))
+    assert.ok(
+      current.every((version) => typeof version === 'string' && /^\d+$/.test(version)),
+    )
   })
 
   it('fetches the LTS versions', async function () {
@@ -99,6 +106,77 @@ describe('get', function () {
     const lts = ltsv.get('lts')
     console.log(lts)
     assert.ok(lts.length)
+  })
+})
+
+describe('fetchLTS', function () {
+  it('resets and retries after a failure', async function () {
+    const instance = new GetNodeLTS()
+    let calls = 0
+    instance.nodeVersionData = async () => {
+      if (++calls === 1) throw new Error('simulated failure')
+      return []
+    }
+    await assert.rejects(() => instance.fetchLTS(), /simulated failure/)
+    await instance.fetchLTS()
+    assert.equal(calls, 2)
+  })
+})
+
+describe('nodeVersionData', function () {
+  it('throws on non-ok HTTP response', async function (t) {
+    t.mock.method(globalThis, 'fetch', async () => ({
+      ok: false,
+      statusText: 'Forbidden',
+    }))
+    await assert.rejects(() => new GetNodeLTS().nodeVersionData(), /Forbidden/)
+  })
+
+  it('throws when Content-Length exceeds limit', async function (t) {
+    t.mock.method(globalThis, 'fetch', async () => ({
+      ok: true,
+      headers: { get: () => String(3 * 1024 * 1024) },
+    }))
+    await assert.rejects(() => new GetNodeLTS().nodeVersionData(), /unexpectedly large/)
+  })
+
+  it('throws when body size exceeds limit', async function (t) {
+    t.mock.method(globalThis, 'fetch', async () => ({
+      ok: true,
+      headers: { get: () => null },
+      text: async () => 'x'.repeat(2 * 1024 * 1024 + 1),
+    }))
+    await assert.rejects(() => new GetNodeLTS().nodeVersionData(), /unexpectedly large/)
+  })
+
+  it('throws on unparsable JSON', async function (t) {
+    t.mock.method(globalThis, 'fetch', async () => ({
+      ok: true,
+      headers: { get: () => null },
+      text: async () => '{not valid json',
+    }))
+    await assert.rejects(() => new GetNodeLTS().nodeVersionData(), /unparsable/)
+  })
+
+  it('throws when response is not an array', async function (t) {
+    t.mock.method(globalThis, 'fetch', async () => ({
+      ok: true,
+      headers: { get: () => null },
+      text: async () => '{"key":"value"}',
+    }))
+    await assert.rejects(() => new GetNodeLTS().nodeVersionData(), /Could not fetch/)
+  })
+
+  it('throws on an invalid version entry', async function (t) {
+    t.mock.method(globalThis, 'fetch', async () => ({
+      ok: true,
+      headers: { get: () => null },
+      text: async () => JSON.stringify([{ version: 'not-a-semver' }]),
+    }))
+    await assert.rejects(
+      () => new GetNodeLTS().nodeVersionData(),
+      /Unexpected version entry/,
+    )
   })
 })
 

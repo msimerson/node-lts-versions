@@ -206,8 +206,7 @@ class GetNodeLTS {
     let data
     try {
       data = JSON.parse(raw)
-    }
-    catch {
+    } catch {
       throw new Error(`JSON response from ${nodeOrg}/index.json is unparsable`)
     }
 

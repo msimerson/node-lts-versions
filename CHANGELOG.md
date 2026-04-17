@@ -2,9 +2,15 @@
 
 ### Unreleased
 
-### [1.7.6] - 2026-04-16
+### [2.0.0] - 2026-04-17
 
-#### Changed
+- bump: requires node 22+
+- test: switch coverage to node:test
+- test: increase coverage to 100%
+- ci: add explicit minimal permissions
+- doc(README): add qlty badge
+
+### [1.7.6] - 2026-04-16
 
 - feat: current can be empty, return highest maintenance ver instead
   - eg: node 25 exited current on 2026-03-31
@@ -156,3 +162,4 @@ deps: bump versions, update dist
 [1.7.4]: https://github.com/msimerson/node-lts-versions/releases/tag/v1.7.4
 [1.7.5]: https://github.com/msimerson/node-lts-versions/releases/tag/v1.7.5
 [1.7.6]: https://github.com/msimerson/node-lts-versions/releases/tag/v1.7.6
+[2.0.0]: https://github.com/msimerson/node-lts-versions/releases/tag/v2.0.0
