@@ -1,5 +1,6 @@
 [![CI][ci-img]][ci-uri]
 [![Conventional Commits][cc-img]][cc-uri]
+[![codecov][cov-img]][cov-uri]
 [![Maintainability][qlty-img]][qlty-uri]
 
 # Node.js versions
@@ -167,3 +168,5 @@ Ver Codename	Latest Release	        LTS Period
 [cc-uri]: https://conventionalcommits.org
 [qlty-img]: https://qlty.sh/gh/msimerson/projects/node-lts-versions/maintainability.svg
 [qlty-uri]: https://qlty.sh/gh/msimerson/projects/node-lts-versions
+[cov-img]: https://codecov.io/gh/msimerson/node-lts-versions/graph/badge.svg
+[cov-uri]:https://codecov.io/gh/msimerson/node-lts-versions
