@@ -2,6 +2,13 @@
 
 ### Unreleased
 
+### [1.7.6] - 2026-04-16
+
+#### Changed
+
+- v1.7.6
+
+
 ### [1.7.5] - 2026-03-24
 
 - action: using node20 -> node24
@@ -144,3 +151,4 @@ deps: bump versions, update dist
 [1.7.3]: https://github.com/msimerson/node-lts-versions/releases/tag/v1.7.3
 [1.7.4]: https://github.com/msimerson/node-lts-versions/releases/tag/v1.7.4
 [1.7.5]: https://github.com/msimerson/node-lts-versions/releases/tag/v1.7.5
+[1.7.6]: https://github.com/msimerson/node-lts-versions/releases/tag/v1.7.6
