@@ -33,11 +33,11 @@ Similar to maintenance, except it excludes odd number releases that are never co
 
 #### current
 
-The `current` version would usually be used in your CI tests to always tests your code against the latest Node.js version, but perhaps without failing the CI tests.
+The `current` version would usually be used in your CI tests to always tests your code against the latest Node.js version, but perhaps without failing the CI tests. Current is sometimes empty between release cycles. When that happens, the highest maintenance version is returned instead.
 
 #### min
 
-The `min` version is the lowest supported version of Node.js. It couple be used for modules with scarce updates, whose SLA is a best effort to support _any_ version of Node.js.
+The `min` version is the lowest supported version of Node.js. It could be used for modules with scarce updates, whose SLA is a best effort to support _any_ version of Node.js.
 
 #### manually (the normal way)
 
@@ -46,7 +46,7 @@ test:
   strategy:
     matrix:
       os: [ubuntu-latest, windows-latest, macos-latest]
-      node-version: [20, 22]
+      node-version: [22, 24]
     fail-fast: false
   steps:
 ```
@@ -79,34 +79,32 @@ get-lts:
 
 ```sh
 ✗ node main.js
-::set-output name=active::["22"]
-::set-output name=maintenance::["18","20"]
-::set-output name=lts::["18","20","22"]
-::set-output name=current::["23"]
-::set-output name=min::"18"
+active=["22"]
+maintenance=["18","20","22"]
+lts=["18","20","22"]
+current=["24"]
+min="18"
 ```
 
 #### RAW
 
 ```js
-const ltsv = require('node-lts-versions')
-ltsv.fetchLTS().then(() => {
-  console.log(ltsv.json())
-  console.log(ltsv.yaml())
-  ltsv.print()
-})
+import ltsv from 'node-lts-versions'
+await ltsv.fetchLTS()
+console.log(ltsv.json())
+console.log(ltsv.yaml())
+ltsv.print()
 ```
 
 or
 
 ```js
-const { getNodeLTS } = require('node-lts-versions')
+import { getNodeLTS } from 'node-lts-versions'
 const ltsv = new getNodeLTS()
-ltsv.fetchLTS().then(() => {
-  console.log(ltsv.json())
-  console.log(ltsv.yaml())
-  ltsv.print()
-})
+await ltsv.fetchLTS()
+console.log(ltsv.json())
+console.log(ltsv.yaml())
+ltsv.print()
 ```
 
 ### Methods
@@ -125,7 +123,7 @@ Display Node.js version information in JSON format.
 > ltsv.json('lts')
 '["18","20","22"]'
 > ltsv.json()
-'["23"]'
+'["18","20","22"]'
 ```
 
 #### yaml
@@ -148,10 +146,10 @@ Display Node.js version information in YAML format.
 Display Node.js version information in tabular format.
 
 ```
-Ver Codename    Latest Release          LTS Period
-18    Hydrogen  v18.20.8 on 2025-03-27  2022-10-17 to 2025-04-30
-20    Iron      v20.19.1 on 2025-04-22  2023-10-16 to 2026-04-30
-22    Jod       v22.15.0 on 2025-04-22  2024-10-23 to 2027-04-30
+Ver Codename	Latest Release	        LTS Period
+20    Iron    v20.20.2 on 2026-03-24  2023-10-17 to 2026-04-30
+22    Jod     v22.22.2 on 2026-03-24  2024-10-24 to 2027-04-30
+24    Krypton v24.15.0 on 2026-04-15  2025-11-06 to 2028-05-31
 ```
 
 ## Reference
@@ -159,7 +157,3 @@ Ver Codename    Latest Release          LTS Period
 - GitHub Actions: [New workflow features](https://github.blog/changelog/2020-04-15-github-actions-new-workflow-features/)
 - [Using tags for Release
   management](https://docs.github.com/en/enterprise-cloud@latest/actions/creating-actions/about-custom-actions#using-release-management-for-actions)
-
-## Future
-
-Got ideas? Contributions are welcome. Submit a PR with tests and it will likely be accepted.

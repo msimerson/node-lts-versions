@@ -6,8 +6,12 @@
 
 #### Changed
 
-- v1.7.6
-
+- feat: current can be empty, return highest main ver instead
+  - eg: node 25 exited current on 2026-03-31
+    - as of 2026-04-16 node 26 hasn't entered current
+- replace [y,m,d] literals with well named CONSTANTS
+- action.yml: added maintenance, current, and min to declared outputs
+- add limits & validation of nodejs.org download
 
 ### [1.7.5] - 2026-03-24
 

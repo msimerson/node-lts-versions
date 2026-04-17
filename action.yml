@@ -9,5 +9,9 @@ outputs:
     description: maintained LTS versions
   active:
     description: active LTS versions
+  maintenance:
+    description: all non-EOL versions (active + maintenance LTS)
+  current:
+    description: current (non-LTS) version, or highest maintenance version if between release cycles
   min:
     description: the lowest LTS version

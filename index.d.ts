@@ -17,18 +17,18 @@ interface MajorLatestNodeVersionData extends NodeVersionData {
   dateStartActive: Date
   dateStartCurrent: Date
   dateEndCurrent: Date
+  dateEOL: Date
+}
 
-  dateStartLTS?: Date
-  dateEndActive?: Date
-  dateEndLTS?: Date
-  dateEOL?: Date
+interface EvenMajorLatestNodeVersionData extends MajorLatestNodeVersionData {
+  dateStartLTS: Date
+  dateEndActive: Date
+  dateEndLTS: Date
 }
 
 declare class GetNodeLTS {
-  majorsLatest: { [major: string]: MajorLatestNodeVersionData }
+  majorsLatest: { [major: string]: MajorLatestNodeVersionData | EvenMajorLatestNodeVersionData }
   majorsInitial: { [major: string]: NodeVersionData }
-
-  constructor(opts?: unknown)
 
   fetchLTS(): Promise<void>
 
