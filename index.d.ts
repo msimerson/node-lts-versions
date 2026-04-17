@@ -27,7 +27,9 @@ interface EvenMajorLatestNodeVersionData extends MajorLatestNodeVersionData {
 }
 
 declare class GetNodeLTS {
-  majorsLatest: { [major: string]: MajorLatestNodeVersionData | EvenMajorLatestNodeVersionData }
+  majorsLatest: {
+    [major: string]: MajorLatestNodeVersionData | EvenMajorLatestNodeVersionData
+  }
   majorsInitial: { [major: string]: NodeVersionData }
 
   fetchLTS(): Promise<void>

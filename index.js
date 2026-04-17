@@ -8,11 +8,11 @@ const now = new Date().getTime()
 // Node.js release lifecycle offsets as [years, months, days]
 // https://nodejs.org/en/about/previous-releases
 const SCHEDULE = {
-  CURRENT_END:     [0, 6, 0],   // Current phase: first 6 months
-  LTS_START:       [0, 6, 0],   // LTS begins when Current ends
-  ACTIVE_END:      [0, 18, 0],  // Active LTS: months 6–18
+  CURRENT_END: [0, 6, 0], // Current phase: first 6 months
+  LTS_START: [0, 6, 0], // LTS begins when Current ends
+  ACTIVE_END: [0, 18, 0], // Active LTS: months 6–18
   MAINTENANCE_END: [0, 36, 31], // Maintenance LTS: months 18–36 (last day)
-  ODD_EOL:         [0, 8, 0],   // Odd majors (no LTS): EOL at 8 months
+  ODD_EOL: [0, 8, 0], // Odd majors (no LTS): EOL at 8 months
 }
 
 const MAX_RESPONSE_BYTES = 2 * 1024 * 1024 // 2 MB
@@ -50,13 +50,28 @@ class GetNodeLTS {
       const major = Number(maj)
       this.majorsLatest[major].dateStartActive = this.deltaDate(obj.date, [0, 0, 0])
       this.majorsLatest[major].dateStartCurrent = this.deltaDate(obj.date, [0, 0, 0])
-      this.majorsLatest[major].dateEndCurrent = this.deltaDate(obj.date, SCHEDULE.CURRENT_END)
+      this.majorsLatest[major].dateEndCurrent = this.deltaDate(
+        obj.date,
+        SCHEDULE.CURRENT_END,
+      )
 
       if (major % 2 === 0) {
-        this.majorsLatest[major].dateStartLTS = this.deltaDate(obj.date, SCHEDULE.LTS_START)
-        this.majorsLatest[major].dateEndActive = this.deltaDate(obj.date, SCHEDULE.ACTIVE_END)
-        this.majorsLatest[major].dateEndLTS = this.deltaDate(obj.date, SCHEDULE.MAINTENANCE_END)
-        this.majorsLatest[major].dateEOL = this.deltaDate(obj.date, SCHEDULE.MAINTENANCE_END)
+        this.majorsLatest[major].dateStartLTS = this.deltaDate(
+          obj.date,
+          SCHEDULE.LTS_START,
+        )
+        this.majorsLatest[major].dateEndActive = this.deltaDate(
+          obj.date,
+          SCHEDULE.ACTIVE_END,
+        )
+        this.majorsLatest[major].dateEndLTS = this.deltaDate(
+          obj.date,
+          SCHEDULE.MAINTENANCE_END,
+        )
+        this.majorsLatest[major].dateEOL = this.deltaDate(
+          obj.date,
+          SCHEDULE.MAINTENANCE_END,
+        )
       } else {
         this.majorsLatest[major].dateEOL = this.deltaDate(obj.date, SCHEDULE.ODD_EOL)
       }
