@@ -6,7 +6,7 @@
 
 #### Changed
 
-- feat: current can be empty, return highest main ver instead
+- feat: current can be empty, return highest maintenance ver instead
   - eg: node 25 exited current on 2026-03-31
     - as of 2026-04-16 node 26 hasn't entered current
 - replace [y,m,d] literals with well named CONSTANTS

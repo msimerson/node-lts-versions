@@ -88,8 +88,10 @@ describe('get', function () {
   it('fetches the current version', async function () {
     await ltsv.fetchLTS()
     const current = ltsv.get('current')
-    console.log(current)
     // current can be empty between Node.js release cycles
+    console.log(current)
+    assert.ok(Array.isArray(current))
+    assert.ok(current.every((version) => typeof version === 'string' && /^\d+$/.test(version)))
   })
 
   it('fetches the LTS versions', async function () {

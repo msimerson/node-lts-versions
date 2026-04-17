@@ -33,7 +33,7 @@ Similar to maintenance, except it excludes odd number releases that are never co
 
 #### current
 
-The `current` version would usually be used in your CI tests to always tests your code against the latest Node.js version, but perhaps without failing the CI tests. Current is sometimes empty between release cycles. When that happens, the highest maintenance version is returned instead.
+The `current` version can be used in CI to test against the latest Node.js version, but perhaps without failing the CI tests. Current is sometimes empty between release cycles. When that happens, the highest maintenance version is returned instead.
 
 #### min
 
