@@ -4,6 +4,7 @@
 
 ### [2.0.1] - 2026-04-17
 
+- ci: update NPM publish config
 
 ### [2.0.0] - 2026-04-17
 
@@ -167,3 +168,4 @@ deps: bump versions, update dist
 [1.7.6]: https://github.com/msimerson/node-lts-versions/releases/tag/v1.7.6
 [2.0.0]: https://github.com/msimerson/node-lts-versions/releases/tag/v2.0.0
 [2.0.1]: https://github.com/msimerson/node-lts-versions/releases/tag/v2.0.1
+[2]: https://github.com/msimerson/node-lts-versions/releases/tag/v2
