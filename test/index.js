@@ -110,6 +110,18 @@ describe('get', function () {
 })
 
 describe('fetchLTS', function () {
+  it('ignores prereleases', async function () {
+    const daysAgo = (n) => new Date(Date.now() - n * 86400000).toISOString().slice(0, 10)
+    const instance = new GetNodeLTS()
+    instance.nodeVersionData = async () => [
+      { version: 'v27.0.0-alpha.0.0.0', date: daysAgo(1), lts: false },
+      { version: 'v26.1.0', date: daysAgo(10), lts: false },
+      { version: 'v26.0.0', date: daysAgo(30), lts: false },
+    ]
+    await instance.fetchLTS()
+    assert.deepEqual(instance.get('current'), ['26'])
+  })
+
   it('resets and retries after a failure', async function () {
     const instance = new GetNodeLTS()
     let calls = 0
