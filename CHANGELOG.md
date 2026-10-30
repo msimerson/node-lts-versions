@@ -4,12 +4,8 @@
 
 ### [2.0.3] - 2026-10-29
 
-#### Fixed
-
-- ignore prereleases (#40)
-
-
-- fix: ignore prereleases
+- deps: bump to latest
+- fix: ignore prereleases (#40)
 
 ### [2.0.2] - 2026-04-17
 
