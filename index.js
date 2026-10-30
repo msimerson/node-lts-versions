@@ -35,7 +35,11 @@ class GetNodeLTS {
   }
 
   async #populate() {
-    const versions = await this.nodeVersionData()
+    // a major's lifecycle starts with its first release: a prerelease (v27.0.0-alpha) would
+    // make it current before setup-node can install it
+    const versions = (await this.nodeVersionData()).filter(
+      (v) => !semver.prerelease(v.version),
+    )
 
     // versions is sorted descending, so within each group:
     //   at(0)  = latest release, at(-1) = earliest (initial) release

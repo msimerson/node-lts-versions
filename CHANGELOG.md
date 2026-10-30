@@ -2,6 +2,8 @@
 
 ### Unreleased
 
+- fix: ignore prereleases
+
 ### [2.0.2] - 2026-04-17
 
 - ci: remove npm token (deprecated)
