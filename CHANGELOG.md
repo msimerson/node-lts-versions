@@ -2,7 +2,10 @@
 
 ### Unreleased
 
-- fix: ignore prereleases
+### [2.0.3] - 2026-10-29
+
+- deps: bump to latest
+- fix: ignore prereleases (#40)
 
 ### [2.0.2] - 2026-04-17
 
@@ -176,3 +179,4 @@ deps: bump versions, update dist
 [2.0.1]: https://github.com/msimerson/node-lts-versions/releases/tag/v2.0.1
 [2]: https://github.com/msimerson/node-lts-versions/releases/tag/v2
 [2.0.2]: https://github.com/msimerson/node-lts-versions/releases/tag/v2.0.2
+[2.0.3]: https://github.com/msimerson/node-lts-versions/releases/tag/v2.0.3

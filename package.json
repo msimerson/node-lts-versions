@@ -1,6 +1,6 @@
 {
   "name": "node-lts-versions",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Get the maintained LTS versions of Node.js",
   "main": "index.js",
   "type": "module",
@@ -16,12 +16,12 @@
     "node": ">=22"
   },
   "dependencies": {
-    "@actions/core": "^3.0.0",
-    "semver": "^7.7.4"
+    "@actions/core": "^3.0.1",
+    "semver": "^7.8.5"
   },
   "devDependencies": {
-    "@haraka/eslint-config": "^2.0.4",
-    "@vercel/ncc": "^0.38.4"
+    "@haraka/eslint-config": "^3.0.0",
+    "@vercel/ncc": "^0.45.0"
   },
   "scripts": {
     "test": "node --test test/*.js",
